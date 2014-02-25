@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ site.name }}</title>
+    <!--mathjax-->
+      <script
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+      >
+      </script>
+      <script>
+        MathJax.Hub.Config({
+            jax: ["input/TeX","output/HTML-CSS"],
+            displayAlign: "left",
+            displayIndent: "20px"
+        });
+      </script>
+    <!--toc-->
+      <script src="http://code.jquery.com/jquery-1.10.2.min.js" ></script>
+      <!--assets-->
+        <!--shared at github.io root: -->
+          <!--<link rel="stylesheet" href="/assets/syntax.css"/>-->
+          <script src="/assets/jquery.toc.js"></script>
+        <!--per site: -->
+          <link rel="stylesheet" href="{{ site.baseurl }}assets/main.css"/>
+          <!--<link rel="stylesheet" href="{{ site.baseurl }}assets/syntax.css"/>-->
+          <!--<script src="{{ site.baseurl }}assets/jquery.toc.js"></script>-->
+      <script>
+        $("#toc").toc({
+          headings: "h1,h2,h3,h4,h5,h6"
+        });
+      </script>
+  </head>
+  <body>
+    <div class="header">
+      <a href="{{ site.baseurl }}" style="font-weight:bold; font-size:30px;">{{ site.name }}</a>
+      <a href="https://github.com/cirosantilli{{ site.baseurl }}">Fork me on GitHub!</a>
+    </div>
+    <div class="page-title">{{ page.title }}</div>
+    {{ content }}
+  </body>
+</html>
