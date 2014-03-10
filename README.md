@@ -1,4 +1,4 @@
-Database tutorials: <http://cirosantilli.github.io/db>
+Database tutorials: <http://www.cirosantilli.com/db>
 
 At GitHub Pages for the Js TOC.
 
