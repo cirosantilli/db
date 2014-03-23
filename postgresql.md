@@ -6,61 +6,40 @@ permalink: postgresql/
 
 CLI executable name: `psql`
 
-#get started
+#Get started
 
 <http://stackoverflow.com/questions/1471571/how-to-configure-postgresql-for-the-first-time>
 
 First you must have an OS user (not a database user) named `postgres`.
 
-This OS user usually is created when PostgreSQL is installed.
-The PostgreSQL superuser `postgres` should always exist on all installations.
+This OS user usually is created when PostgreSQL is installed on Ubuntu via `apt-get`.
 
-The first login can only be done by an user with that exact username.
-
-Under the following configuration file:
-
-    sudo vim /etc/postgresql/9.1/main/pg_hba.conf
-
-Check that the authentication method for user `postgres` is `peer`.
-If this is not the case, make it so, and restart the server with:
-
-    sudo service postgresql restart
-
-or:
-
-    sudo /etc/init.d/postgresql restart
-
-depending on your system's init method.
-
-`peer` means that if the OS user named `XXX` is logged in, then he can
-automatically login on the database if `XXX` exists on the database,
-without having a database password.
-
-Now that user `postgres` can login with the `peer` method, do it:
+The first login can only be done by the `postgres` user, so you must do:
 
     sudo -u postgres psql template1
 
-`template1` is the name of a database which always exists on new installations.
-If not given, login may fail, since it tries to use a default database with the same
-name as the username `postgres`.
+Where `template1` is the name of a database which always exists on new installations. If not given, login may fail, since it tries to use a default database with the same name as the username `postgres`.
 
-Once logged in, set the `postgres` password:
+This only works if the authentication method for `postgres` is `peer`.
 
-    ALTER USER postgres with encrypted password 'xxxxxxx';
+`peer` means that if the OS user named `XXX` is logged in, then he can automatically login on the database if `XXX` exists on the database, without having a database password.
 
-and exit.
+The other major method of authentication is `md5`, which can work for users that don't exist in the OS and requires a password. This method is safer, but you will have to type more every time.
 
-Change the login method for user `postgres` to `md5`.
-`md5` means that a PostgreSQL password is required.
+This can be set under the following configuration file:
 
-Now using the `postgres` PostgreSQL user create a user for yourself as superuser
+    sudo vim /etc/postgresql/9.1/main/pg_hba.conf
 
-    createuser -U postgres -deElPrs <my_username>
+Your login method is probably being controlled by the user `all` line in the default config file.
 
-You can choose your login method for yourself: `peer` or `md5`. `md5` is safer,
-but you will have to type more every time. Your login method is probably being controlled
-by the user `all` in the config file.
+Don't forget to restart PG after you have edited the configuration file:
 
-#role
+    sudo service postgresql restart
+
+Using the `postgres` PostgreSQL user you can create new users as:
+
+    sudo -u postgres createuser -deElPrs <my_username>
+
+#Role
 
 In PostgreSQL, an user is commonly called a *role*.

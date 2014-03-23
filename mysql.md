@@ -20,19 +20,14 @@ in order to make requests to MySQL.
 
 The default IANA port for MySQL is 3306.
 
-Clients make CRUD requests to the server to the server using a special language also called MySQL.
-This language is not a general computer language, but rather a language specialized for making queries.
-As such, it does not allow for basic features of general languages such as conditionals or loops.
+Clients make CRUD requests to the server to the server using a special language also called MySQL. This language is not a general computer language, but rather a language specialized for making queries. As such, it does not allow for basic features of general languages such as conditionals or loops.
 
 The server holds session state about the connection. For example, a `SHOW WARNINGS` query
 will only show warnings if the last query produced a warning.
 
 #SQL standard
 
-MySQL is generally compatible with the SQL standard for DBMS,
-but it is well known that there are many differences between how different DBMS
-implement SQL, so it is not safe to assume that using SQL only will increase portability
-too much.
+MySQL is generally compatible with the SQL standard for DBMS, but it is well known that there are many differences between how different DBMS implement SQL, so it is not safe to assume that using SQL only will increase portability too much.
 
 The SQL standard is a non-free ANSI/ISO standard.
 
@@ -49,7 +44,7 @@ Configuration file:
 
 Contains info such as: port to listen to.
 
-#interfaces
+#Interfaces
 
 ##MySQL utility
 
@@ -73,8 +68,7 @@ TODO what defaults are taken is `-u` and `-l` are omitted:
 
     mysql -p
 
-Without the `-p`, will try to login without using a password,
-which is likely to fail for the root with default settings:
+Without the `-p`, will try to login without using a password, which is likely to fail for the root with default settings:
 
     mysql -u root -h localhost
 
@@ -84,8 +78,7 @@ Log in with given password:
 
     mysql -u root -h localhost -p"pass"
 
-There must be no space between `-p` and `"pass"`.
-This has obviously the security risk of exposing your password.
+There must be no space between `-p` and `"pass"`. This has obviously the security risk of exposing your password.
 
 ###use modes
 
@@ -93,8 +86,7 @@ The `mysql` CLI utility can be used either as:
 
 - an interactive REPL interface to MySQL
 
-- a batch interface to MySQL, which deals with things such as login for you.
-    Batch mode is used via either the `-e` option or by reading commands from a pipe.
+- a batch interface to MySQL, which deals with things such as login for you. Batch mode is used via either the `-e` option or by reading commands from a pipe.
 
     Execute commands from string and exit:
 
@@ -104,16 +96,11 @@ The `mysql` CLI utility can be used either as:
 
         mysql -u root -p < a.sql
 
-###output format
+###Output format
 
-If the output is to be given to a terminal,
-MySQL may process MySQL output to make it more human readable,
-for example by adding table borders.
+If the output is to be given to a terminal, MySQL may process MySQL output to make it more human readable, for example by adding table borders.
 
-If the output is to be put into a pipe, MySQL utility detects this and removes by default those
-human readability features, separating columns with tab characters, and rows with newlines.
-This makes sense since it is expected that the output is to be further interpreted by another program,
-so human readable features should only complicate its task.
+If the output is to be put into a pipe, MySQL utility detects this and removes by default those human readability features, separating columns with tab characters, and rows with newlines. This makes sense since it is expected that the output is to be further interpreted by another program, so human readable features should only complicate its task.
 
 It is possible to customize what should be done in each case via command line options.
 
@@ -189,7 +176,7 @@ Allows to view and modify databases on a browser.
 
 All major programming languages have a MySQL interface.
 
-The following have interfaces which are part of the mysql project:
+The following have interfaces which are part of the MySQL project:
 
 - C
 - Python
@@ -215,7 +202,7 @@ and now you can type `myt` to safely run any tests.
 
 #help
 
-The help command queries the server for mysql help information.
+The help command queries the server for MySQL help information.
 
 Examples:
 
@@ -249,12 +236,11 @@ If a multiline comment is for example of the form:
 
     /*!40100 SHOW TABLES */;
 
-then it will *not* be treated as a comment on MySQL versions equal to or greater than `4.01.00`
-and will get executed normally.
+then it will *not* be treated as a comment on MySQL versions equal to or greater than `4.01.00` and will get executed normally.
 
 This type of version conditional comments serve a similar purpose to C `__STDC_VERSION__` typedefs.
 
-#structure
+#Structure
 
 MySQL organizes information hierarchically as:
 
@@ -264,7 +250,7 @@ MySQL organizes information hierarchically as:
 - each column holds a single type of information:
     numbers, characters, text ext.
 
-#command case
+#Command case
 
 Commands are case insensitive.
 
@@ -274,12 +260,9 @@ For example, all the following work:
     select * from db.tbl;
     sElEct * fRoM db.tbl;
 
-The most common convention is however to use upper case for built-in commands,
-and lowercase for names given to tables, allowing to distinguish between both easily,
-while allowing names to be all lowercase, as is usually the convention for variable names
-in most modern programming languages.
+The most common convention is however to use upper case for built-in commands, and lowercase for names given to tables, allowing to distinguish between both easily, while allowing names to be all lowercase, as is usually the convention for variable names in most modern programming languages.
 
-#quotation types
+#Quotation types
 
 There are three types of quotations in MySQL:
 
@@ -291,7 +274,7 @@ There are three types of quotations in MySQL:
 
     - the identifier contain chars other than alphanumeric, underscore `_` or dollar `$`.
 
-    - the identifier is a mysql keyword such as `date` or `int`.
+    - the identifier is a MySQL keyword such as `date` or `int`.
 
     In other SQL implementations, square brackets must be used instead of backticks: `[]`
 
@@ -299,38 +282,33 @@ There are three types of quotations in MySQL:
 
 - double quotes: `"asdf"`. Same as single quotes. Single quotes are more common across DBMSs, so prefer single quotes.
 
-#error logging
+#Error logging
 
-Errors may occur either if a request is ill-formed or if an impossible operation is requested such as
-dropping an inexistent table:
+Errors may occur either if a request is ill-formed or if an impossible operation is requested such as dropping an inexistent table:
 
     DROP TABLE idontexist;
 
-If one command gives an error, the execution is terminated immediately
-without doing further commands in the same request. For example:
+If one command gives an error, the execution is terminated immediately without doing further commands in the same request. For example:
 
     DROP TABLE idontexist; SELECT 'hello';
 
 will not show `hello` since an error occurred before that.
 
-Note that the `mysql` with the `-e` option sends all commands at once to the server
-even if the commands are on separate lines. Therefore for example the following prints nothing:
+Note that the `mysql` with the `-e` option sends all commands at once to the server even if the commands are on separate lines. Therefore for example the following prints nothing:
 
     mysql -u test -h localhost -ppass test "DROP TABLE idontexist;
         SELECT 'hello';"
 
-An error does not close the session.
-Before the session is over, it is possible to retrieve the last error message with the `SHOW WARNINGS` function:
+An error does not close the session. Before the session is over, it is possible to retrieve the last error message with the `SHOW WARNINGS` function:
 
     DROP TABLE idontexist;
     SHOW WARNINGS
 
-Besides the `error` level, mysql logging also represents the warning level, and the note level.
-`SHOW WARNINGS` shows the last error, warning or note.
+Besides the `error` level, MySQL logging also represents the warning level, and the note level. `SHOW WARNINGS` shows the last error, warning or note.
 
-#literal values
+#Literal values
 
-##strings
+##Strings
 
 Literal strings can be either single or double quoted:
 
@@ -348,7 +326,7 @@ Output:
 
     ab\nc
 
-##numeric types
+##Numeric types
 
 C-like.
 
@@ -374,7 +352,7 @@ Output:
 
 Can only use upper case `E`.
 
-##boolean
+##Boolean
 
     SELECT TRUE, FALSE;
 
@@ -384,27 +362,25 @@ Output:
 
 ##null literal
 
-Represents absense of data.
+Represents absence of data.
 
     SELECT NULL;
 
-Ouputs:
+Output:
 
     NULL
 
-##literal tables
+##Literal tables
 
-It seems that it is not possible to directly create literal rows or tables:
-<http://stackoverflow.com/questions/985295/can-you-define-literal-tables-in-sql>
+It seems that it is not possible to directly create literal rows or tables: <http://stackoverflow.com/questions/985295/can-you-define-literal-tables-in-sql>
 
-#identifiers
+#Identifiers
 
 Identifiers are names for things like databases or tables.
 
-It is possible to use identifiers with characters other than alphanumeric, `_` or dollar `$`
-in the range U+0080 .. U+FFFF only if backticks are used.
+It is possible to use identifiers with characters other than alphanumeric, `_` or dollar `$` in the range `U+0080 .. U+FFFF` only if backticks are used.
 
-For example the following are ok:
+For example the following are OK:
 
     CREATE TABLE `a é 中` (col0 INT);
     CREATE TABLE a_$ (col0 INT);
@@ -414,48 +390,44 @@ But the following are not:
     CREATE TABLE a b (col0 INT);
     CREATE TABLE aé (col0 INT);
 
-#special databases
+#Special databases
 
 As soon as you install MySQL, certain databases already exist:
 
 - `mysql`
 - `information_schema`
 
-Those databases are special as they contain metadata used by MySQL such as user information,
-database metadata, etc.
+Those databases are special as they contain metadata used by MySQL such as user information, database metadata, etc.
 
 Be very careful when editing those databases directly.
 
-#users
+#Users
 
 MySQL has the concept of users and permissions analogous to POSIX users and permissions.
 
-Each user/host pair has certain priviledges such as
-view, edit, delete databases, tables and entries.
+Each user/host pair has certain privileges such as view, edit, delete databases, tables and entries.
 
-Those permissions may apply either to specific table/database
-or to the entire server (global permissions).
+Those permissions may apply either to specific table/database or to the entire server (global permissions).
 
 By default, a superuser called root is created during server installation.
 
-List users and their *global* priviledges:
+List users and their *global* privileges:
 
     SELECT * FROM mysql.user;
 
-Note that priviledges are given to user/host pairs, not just users/hosts separately.
+Note that privileges are given to user/host pairs, not just users/hosts separately.
 
 Create a new user with given password:
 
     CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
 
-this user has no priviledges. He can only log from the `localhost` host.
+this user has no privileges. He can only log from the `localhost` host.
 
 Create a user on all hosts:
 
     CREATE USER 'newuser'@'%' IDENTIFIED BY 'password';
 
-Does *not* include UNIX domain connections such is the case for localhost,
-but does include all TCP/UDP connections.
+Does *not* include UNIX domain connections such is the case for localhost, but does include all TCP/UDP connections.
 
 Get current user host pair:
 
@@ -465,11 +437,11 @@ Sample output:
 
     ciro@localhost
 
-Show all global priviledges supported by a server:
+Show all global privileges supported by a server:
 
     SHOW PRIVILEGES;
 
-View priviledges given for databases to current user:
+View privileges given for databases to current user:
 
     SHOW GRANTS;
 
@@ -477,13 +449,13 @@ To a given user:
 
     SHOW GRANTS FOR user@host;
 
-Give all priviledges to an user:
+Give all privileges to an user:
 
     GRANT ALL            ON *   .*     TO 'user'@'localhost';
 
-*.* means global priviledges:
+*.* means global privileges:
 
-On all tables on db `mydb`:
+On all tables on DB `mydb`:
 
     GRANT ALL            ON mydb.*     TO 'user'@'localhost';
     GRANT SELECT, INSERT ON mydb.*     TO 'user'@'localhost';
@@ -493,7 +465,7 @@ Only for table `mydb.mytbl`:
     GRANT ALL            ON mydb.mytbl TO 'user'@'localhost';
     GRANT SELECT, INSERT ON mydb.mytbl TO 'user'@'localhost';
 
-Remove priviledges of an user:
+Remove privileges of an user:
 
     REVOKE;
 
@@ -506,22 +478,17 @@ Change password for an existing user:
     USE MYSQL
     SET PASSWORD FOR 'user-name'@'hostname-name' = PASSWORD('new-password');
 
-Some sources mention that `FLUSH PRIVILEGES` priviledges is needed after `SET PASSWORD`,
-but the 5.0 documentataion says that this should be necessary after a `GRANT`, `REVOKE`, or `SET PASSWORD`,
-and, only if `INSERT`, `UPDATE` or `DELETE` are used directly.
+Some sources mention that `FLUSH PRIVILEGES` privileges is needed after `SET PASSWORD`, but the 5.0 documentation says that this should be necessary after a `GRANT`, `REVOKE`, or `SET PASSWORD`, and, only if `INSERT`, `UPDATE` or `DELETE` are used directly.
 
 Also consider using the `mysqladmin` utility for this task.
 
 #flush
 
-Flush tells MySQL to load to the mysqld memory metadata that has been modified
-in the control table `mysql`, making it take effect.
+Flush tells MySQL to load to the mysqld memory metadata that has been modified in the control table `mysql`, making it take effect.
 
-For example, `INSERT` can be used to modify users and permissions on the `mysql` control database,
-but it does take effect in the running mysql instance unless a `FLUSH PRIVILEGES` is done,
-which makes the server load this new information and put it into effect.
+For example, `INSERT` can be used to modify users and permissions on the `mysql` control database, but it does take effect in the running MySQL instance unless a `FLUSH PRIVILEGES` is done, which makes the server load this new information and put it into effect.
 
-#database
+#Database
 
 List all databases:
 
@@ -600,8 +567,7 @@ Create a new table with the given columns:
 
 creates a table with 2 columns.
 
-Table options come after the closing `)`.
-The `=` sign is optional, so the following would also do the same:
+Table options come after the closing `)`. The `=` sign is optional, so the following would also do the same:
 
     CREATE TABLE table_name(
         column_name0 INT,
@@ -609,8 +575,7 @@ The `=` sign is optional, so the following would also do the same:
     ) CHARSET 'utf8' ENGINE 'InnoDB' COMMENT 'table comment';
     DROP TABLE table_name;
 
-It is recommended however that the `=` sign be used to increase readabilty by
-making it clearer which key has which value.
+It is recommended however that the `=` sign be used to increase readabilty by making it clearer which key has which value.
 
 It is not possible to create a table with no columns:
 
@@ -618,8 +583,7 @@ It is not possible to create a table with no columns:
 
 produces an error.
 
-If a table already exists, creating it again gives an error.
-To avoid such errors, it is possible to use the `IF NOT EXISTS` option:
+If a table already exists, creating it again gives an error. To avoid such errors, it is possible to use the `IF NOT EXISTS` option:
 
     CREATE TABLE t( c0 INT );
     CREATE TABLE IF NOT EXISTS t( c0 INT );
@@ -657,8 +621,7 @@ The output should contain neither `t0` nor `t1`.
 
 ###show create table
 
-Shows the exact command needed to to create a table, including options that depend on defaults
-and were not explicitly given at table creation.
+Shows the exact command needed to to create a table, including options that depend on defaults and were not explicitly given at table creation.
 
     CREATE TABLE t (
         c0 INT(2) NOT NULL AUTO_INCREMENT,
@@ -729,8 +692,7 @@ The output should not present the unique constraint anymore.
 
 It is only possible to drop a constraint if you know its name.
 
-If you do not know its name, it is necessary to retreive it manually with `SHOW CREATE TABLE`
-or to do it automatically one must tamper with `information_schema`.
+If you do not know its name, it is necessary to retrieve it manually with `SHOW CREATE TABLE` or to do it automatically one must tamper with `information_schema`.
 
 A `FOREIGN KEY` constraint can only be removed via `DROP FOREIGN KEY`, not `DROP CONSTRAINT`.
 
@@ -738,8 +700,7 @@ A `FOREIGN KEY` constraint can only be removed via `DROP FOREIGN KEY`, not `DROP
 
 ##index
 
-An index is a technique to speed up searches at the cost of more expensive modifications
-and extra space usage.
+An index is a technique to speed up searches at the cost of more expensive modifications and extra space usage.
 
 Therefore indexes are most useful when there will be more searches than modifications on the data.
 
@@ -750,23 +711,17 @@ Indexes can be created with the following keywords:
 - `PRIMARY KEY`
 - `FULLTEXT`
 
-Searches without indexes take $log(n)$ worst case since they mean looking up every row of the table.
-Indexed searches can be done either in $O(log(n))$ or even $O(1)$ since they are implemented as
-B-trees or as a hash maps of values to positions. As of 5.5, the only engine that supports hash is `MEMORY`.
-Index type can be specified via `USING {BTREE|HASH}`.
-`USING` is ignored in case that the engine does not support the index type.
+Searches without indexes take $log(n)$ worst case since they mean looking up every row of the table. Indexed searches can be done either in $O(log(n))$ or even $O(1)$ since they are implemented as B-trees or as a hash maps of values to positions. As of 5.5, the only engine that supports hash is `MEMORY`. Index type can be specified via `USING {BTREE|HASH}`. `USING` is ignored in case that the engine does not support the index type.
 
-Each index speeds up searches on the row or the rows it covers.
-A single table may have more than one index for different columns.
+Each index speeds up searches on the row or the rows it covers. A single table may have more than one index for different columns.
 
-Every data type can be used on indexes, but there are limits on how many bytes can be used
-for an index, so `TEXT` and `BLOB` types require that the number of bytes to be used be specified.
+Every data type can be used on indexes, but there are limits on how many bytes can be used for an index, so `TEXT` and `BLOB` types require that the number of bytes to be used be specified.
 
 ###index name
 
 Every index has an unique name.
 
-If not given explicitly, the name is automaticaly generated by MySQL.
+If not given explicitly, the name is automatically generated by MySQL.
 
 Two indexes cannot have the same name.
 
@@ -803,16 +758,13 @@ Output:
 
 Note that there were no errors.
 
-It is also common to make the key `NOT NULL`,
-which helps MySQL do certain optimizations.
+It is also common to make the key `NOT NULL`, which helps MySQL do certain optimizations.
 
 ###unique
 
-Enforces uniqueness of each value of a row,
-except for `NULL` which may appear serveral times.
+Enforces uniqueness of each value of a row, except for `NULL` which may appear serveral times.
 
-This can only be maintained efficiently if an index is created,
-so `UNIQUE` also creates an index, thus implying `INDEX`.
+This can only be maintained efficiently if an index is created, so `UNIQUE` also creates an index, thus implying `INDEX`.
 
     CREATE TABLE t (a INT UNIQUE, b INT);
     INSERT INTO t VALUES (0, 0), (1, 0);
@@ -828,7 +780,7 @@ Output:
 
 ###primary key
 
-Implies the behavious of `UNIQUE` and `NOT NULL`, that is:
+Implies the behaviors of `UNIQUE` and `NOT NULL`, that is:
 
 - enforces that there are no duplicates.
 - implies `NOT NULL`.
@@ -889,9 +841,7 @@ Pointing to an `UNIQUE` row is also possible:
 
 but is not usually a good design choice.
 
-Both tables should use the same engine.
-If this is not the case, the command may not generate any erros,
-but this is not a good idea since different engines treat foreign keys differently.
+Both tables should use the same engine. If this is not the case, the command may not generate any errors, but this is not a good idea since different engines treat foreign keys differently.
 
     CREATE TABLE authors (
         id INT PRIMARY KEY,
@@ -907,8 +857,7 @@ but this is not a good idea since different engines treat foreign keys different
 
 It is not possible to drop a table if another table has foreign keys to it:
 
-Foreign key names must be unique across all tables of all databases
-<http://stackoverflow.com/questions/13338198/mysql-index-name-and-foreign-key-name-must-be-different-for-different-tables>:
+Foreign key names must be unique across all tables of all databases <http://stackoverflow.com/questions/13338198/mysql-index-name-and-foreign-key-name-must-be-different-for-different-tables>:
 
     CREATE TABLE authors (
         id INT PRIMARY KEY AUTO_INCREMENT,
@@ -929,8 +878,7 @@ Foreign key names must be unique across all tables of all databases
     );
     DROP TABLE books, authors;
 
-The only way to work around this is to either first drop the `FOREIGN KEY` constraint,
-or the table with the foreign key.
+The only way to work around this is to either first drop the `FOREIGN KEY` constraint, or the table with the foreign key.
 
 Drop the table:
 
@@ -966,8 +914,7 @@ Remove the constraint:
     DROP TABLE authors;
     DROP TABLE books;
 
-Engines like InnoDB prevent by default prevent update or delete of primary keys on tables which have foreign keys pointing in.
-If this is allows, and what should happen is determined by the `FOREIGN KEY` `ON DELETE` and `ON UPDATE` options.
+Engines like InnoDB prevent by default prevent update or delete of primary keys on tables which have foreign keys pointing in. If this is allows, and what should happen is determined by the `FOREIGN KEY` `ON DELETE` and `ON UPDATE` options.
 
 For `InnoDB` as of 5.5 the following options are supported:
 
@@ -1086,7 +1033,7 @@ Output:
 
 Each table has an engine assigned to it.
 
-The engine deterines exactly how data is stored and retreived in the table.
+The engine determines exactly how data is stored and retrieved in the table.
 
 Starting from 5.1, engines can be plugged into a running instance of MySQL without restarting it.
 
@@ -1118,12 +1065,11 @@ Under `support` we see:
 - `NO`  not supported.
 - `DEFAULT` the engine is the default one for new tables.
 
-`XA` is a transaction standard by X/Open that is not specific for databases,
-but could also be used in other types of systems.
+`XA` is a transaction standard by X/Open that is not specific for databases, but could also be used in other types of systems.
 
 The engine of a table can be specified at creation time via the `ENGINE` table option:
 
-If is possible to retreive the table type via `SHOW CREATE TABLE`;
+If is possible to retrieve the table type via `SHOW CREATE TABLE`;
 
     CREATE TABLE t(c INT) ENGINE=InnoDB;
     SHOW CREATE TABLE t;
@@ -1131,7 +1077,7 @@ If is possible to retreive the table type via `SHOW CREATE TABLE`;
 
 ##temporary table
 
-A table that only exists per session and experies at the end of a session.
+A table that only exists per session and expires at the end of a session.
 
 `SHOW TABLES` does not show temporary tables. TODO how to list them?
 
@@ -1147,8 +1093,7 @@ Now to verify that the table does not exist anymore so the following should give
 
     DESC tt;
 
-It is possible (but horribly confusing) to have a temporary table with the same name as a non temporaty table.
-The table that is created last will override the old one which becomes innacessible on the current session.
+It is possible (but horribly confusing) to have a temporary table with the same name as a non temporarily table. The table that is created last will override the old one which becomes inaccessible on the current session.
 
     CREATE TABLE t (c INT);
     INSERT INTO t VALUES (0);
@@ -1168,9 +1113,7 @@ The output should not contain `t`, since only the temporary table exists now.
 
 ###drop temporary
 
-It is preferred to use `DROP TEMPORARY TABLE` instead of just `DROP TABLE` to delete temporary tables
-because the former only deletes temporary tables, and if there are two tables with the same name it always
-deletes the temporary one.
+It is preferred to use `DROP TEMPORARY TABLE` instead of just `DROP TABLE` to delete temporary tables because the former only deletes temporary tables, and if there are two tables with the same name it always deletes the temporary one.
 
 The following output should contain `t`, as `DROP TEMPORARY` targeted the temporary table directly.
 
@@ -1199,10 +1142,9 @@ Each column holds a specific data type.
 - `INT`      : 4 bytes
 - `BIGINT`   : 8 bytes
 
-Note that not all of those types are available across all SQL implementations.
-`SMALLINT`, `INT` and `BIGINT` are the most portable.
+Note that not all of those types are available across all SQL implementations. `SMALLINT`, `INT` and `BIGINT` are the most portable.
 
-MySQL offers unsiged versions to those types, but this is not SQL portable.
+MySQL offers unsigned versions to those types, but this is not SQL portable.
 
     CREATE TABLE t (
         si SMALLINT,
@@ -1235,11 +1177,9 @@ since `32767 == 0x8FFF` is the largest possible value.
 
 Represents decimal fractions precisely unlike floats.
 
-For example, 0.3 cannot be represented precisely with floating point numbers since
-its binary representation is infinite.
+For example, 0.3 cannot be represented precisely with floating point numbers since its binary representation is infinite.
 
-This is important for example in financial computations, where errors can add up
-and make a big difference on the resulting output.
+This is important for example in financial computations, where errors can add up and make a big difference on the resulting output.
 
 ###date
 
@@ -1323,19 +1263,19 @@ Range: `1000-01-01 00:00:00` to `9999-12-31 23:59:59`.
 
 ###timestamp
 
-Vs datetime: <http://stackoverflow.com/questions/409286/datetime-vs-timestamp>
+Vs `datetime`: <http://stackoverflow.com/questions/409286/datetime-vs-timestamp>
 
-Similar to datetime but:
+Similar to `datetime` but:
 
 - much smaller range: `'1970-01-01 00:00:01'` UTC to `'2038-01-09 03:14:07'` UTC
-- occupies 4 bytes intead of 8
+- occupies 4 bytes instead of 8
 - is automatically affected by the `TIME_ZONE` variable
 -  The default value is the current time, not `NULL` as in `DATE`.
 - `UPDATE` updates it to current time.
 
-    CREATE TABLE t (d TIMESTAMP, i INT);
-    INSERT INTO t (i) VALUES (1);
-    SELECT * FROM t;
+        CREATE TABLE t (d TIMESTAMP, i INT);
+        INSERT INTO t (i) VALUES (1);
+        SELECT * FROM t;
 
 wait, and then:
 
@@ -1352,13 +1292,11 @@ wait, and then:
 
 `CHAR` and `VARCHAR` both store strings of characters in the given column encoding and collation.
 
-`CHAR` and `VARCHAR` store and retreive the strings differently leading to slightly different behaviours
-and different time/space performance characteristics.
+`CHAR` and `VARCHAR` store and retrieve the strings differently leading to slightly different behaviors and different time/space performance characteristics.
 
 `CHAR` has range 0 to 255. `VARCHAR` has range 0 to 65,535.
 
-`CHAR` always uses up the same number of characters. If all the entries on a table use the same number of characters,
-or almost the same number `CHAR` has two advantages over `VARCHAR`:
+`CHAR` always uses up the same number of characters. If all the entries on a table use the same number of characters, or almost the same number `CHAR` has two advantages over `VARCHAR`:
 
 - may be slightly faster
 
@@ -1371,14 +1309,11 @@ or almost the same number `CHAR` has two advantages over `VARCHAR`:
 
 `VARCHAR` however, may use less bytes than the maximum to represent each string.
 
-In general, the performance gain of `CHAR` is small, and the flexibility of `VARCHAR` is preferred.
-Only use `CHAR` if you are very sure that the size of data will always be the same or almost the same.
+In general, the performance gain of `CHAR` is small, and the flexibility of `VARCHAR` is preferred. Only use `CHAR` if you are very sure that the size of data will always be the same or almost the same.
 
 Why ever use `CHAR` instead of `VARCHAR`: <http://stackoverflow.com/questions/59667/why-would-i-ever-pick-char-over-varchar-in-sql>
 
-Why ever use `VARCHAR(20)` instead of `VARCHAR(255)` if both will get one extra byte:
-<http://stackoverflow.com/questions/262238/are-there-disadvantages-to-using-a-generic-varchar255-for-all-text-based-field>
-In MySQL, there is a RAM memory performance difference, so stick with the smallest value possible.
+Why ever use `VARCHAR(20)` instead of `VARCHAR(255)` if both will get one extra byte: <http://stackoverflow.com/questions/262238/are-there-disadvantages-to-using-a-generic-varchar255-for-all-text-based-field> In MySQL, there is a RAM memory performance difference, so stick with the smallest value possible.
 
 Overflows are treated silently and truncation happens:
 
@@ -1398,17 +1333,13 @@ Output:
 
 ###binary
 
-Similar to `CHAR`, except that the column is not affected by encoding and collation:
-bytes are stored as is.
+Similar to `CHAR`, except that the column is not affected by encoding and collation: bytes are stored as is.
 
 Mostly useful for non-textual data.
 
 ###blob and text
 
-`BLOB` and `TEXT` are very similar to `VARBINARY` and `VARCHAR`: <http://stackoverflow.com/questions/2023481/mysql-large-varchar-vs-text>
-The main difference is that `TEXT` is stored as a reference to outside the table, while `VARCHAR` is stored inline.
-`VARCHAR` may be faster to search since it avoids the dereference, but there are limits to row size.
-Prefere `TEXT` when data can be arbitrarily large.
+`BLOB` and `TEXT` are very similar to `VARBINARY` and `VARCHAR`: <http://stackoverflow.com/questions/2023481/mysql-large-varchar-vs-text> The main difference is that `TEXT` is stored as a reference to outside the table, while `VARCHAR` is stored inline. `VARCHAR` may be faster to search since it avoids the dereference, but there are limits to row size. Prefer `TEXT` when data can be arbitrarily large.
 
 The difference between `BLOB` and `TEXT` is the same as that between `BINARY` and `CHAR`:
 `BLOB` stores a string of bytes and has no encoding or collation.
@@ -1417,7 +1348,7 @@ The difference between `BLOB` and `TEXT` is the same as that between `BINARY` an
 
 `NULL` can be inserted in place of any value that is not marked `NOT NULL`.
 
-It represents absense of data.
+It represents absence of data.
 
     CREATE TABLE t (a INT, b INT);
     INSERT INTO t VALUES (0, 1);
@@ -1476,8 +1407,7 @@ There are two syntaxes for defining constraints:
 
     Disadvantage:
 
-    - it is not possible to define a constraint name.
-        This name is needed to remove a constraint afterwards.
+    - it is not possible to define a constraint name. This name is needed to remove a constraint afterwards.
 
     - less portable. TODO check.
 
@@ -1528,8 +1458,7 @@ Note that:
 
     INT columsn have a default `NULL` value if none is explicitly set.
 
-It seems that the default for a `DATETIME` row cannot be `NOW()`:
-<http://stackoverflow.com/questions/5818423/set-now-as-default-value-for-datetime-datatype>
+It seems that the default for a `DATETIME` row cannot be `NOW()`: <http://stackoverflow.com/questions/5818423/set-now-as-default-value-for-datetime-datatype>
 
 Default can be a function:
 
@@ -1632,15 +1561,6 @@ Output:
     5    five
     6    six
 
-output:
-
-    2    two
-    3    three
-    4    four
-    6    six
-    7    seven
-    8    eight
-
 ###zerofill
 
 Controls how numbers will be output.
@@ -1660,8 +1580,7 @@ The `(4)` mens that the minimum output width is `4`.
 
 The difference of using it can only be noticed if `ZEROFILL` is set for the column.
 
-Floating point types have two display parmeters: minimum width (inluding point and decimals)
-and number of decimal cases:
+Floating point types have two display parmeters: minimum width (inluding point and decimals) and number of decimal cases:
 
     CREATE TABLE t (f FLOAT, f0 FLOAT(10, 2) ZEROFILL);
     INSERT INTO t VALUES (12.3456, 12.3456);
@@ -1716,13 +1635,13 @@ Get more info than `DESC` including:
 - privileges
 - comment
 
-    CREATE TABLE t (
-        c0 INT(2) NOT NULL AUTO_INCREMENT COMMENT 'my comment!',
-        c1 CHAR(2) UNIQUE DEFAULT 'ab',
-        PRIMARY KEY(c0)
-    );
-    SHOW FULL COLUMNS FROM t;
-    DROP TABLE t;
+        CREATE TABLE t (
+            c0 INT(2) NOT NULL AUTO_INCREMENT COMMENT 'my comment!',
+            c1 CHAR(2) UNIQUE DEFAULT 'ab',
+            PRIMARY KEY(c0)
+        );
+        SHOW FULL COLUMNS FROM t;
+        DROP TABLE t;
 
 Sample output:
 
@@ -1750,13 +1669,9 @@ The encoding to use for text columns such as `CHAR` columns.
 
 Does not apply to other types of columns such as `INT` or `DATE`.
 
-Each column may have a different encoding. It is possible to set default charactersets
-for databases and tables, which are then used for columns if not explicitly overridden.
+Each column may have a different encoding. It is possible to set default charactersets for databases and tables, which are then used for columns if not explicitly overridden.
 
-Unless you are absolutely sure that the database will contain only ASCII characters
-(for example it will not contain a natural language), make all databases UTF8.
-Do this even if the database is intended to be English only,
-since even in English contexts it may be useful to use non-ASCII characters.
+Unless you are absolutely sure that the database will contain only ASCII characters (for example it will not contain a natural language), make all databases UTF8. Do this even if the database is intended to be English only, since even in English contexts it may be useful to use non-ASCII characters.
 
 List all possible character sets:
 
@@ -1779,8 +1694,7 @@ Use default UTF8 charset on a table:
     SHOW FULL COLUMNS FROM t;
     DROP TABLE t;
 
-View default charset for given db/table/column:
-<http://stackoverflow.com/questions/1049728/how-do-i-see-what-character-set-a-database-table-column-is-in-mysql>
+View default charset for given DB/TABLE/COLUMN: <http://stackoverflow.com/questions/1049728/how-do-i-see-what-character-set-a-database-table-column-is-in-mysql>
 
 ##collation
 
@@ -1795,15 +1709,15 @@ View all possible collations for each charset:
     SHOW COLLATION;
 
 
-##column limitations
+##Column limitations
 
 Length.
 
 There are length limitation on *row* size (sum of all columns).
 
-2**16-1 = 8k-1
+$2**16-1 = 8k-1$
 
-This means 8k-1/256 = 85 CHAR(256) fields are permitted.
+This means $8k-1/256 = 85% `CHAR(256)` fields are permitted.
 
 TEXT field not stored on the table: each occupies up to 12 bytes on their row.
 
@@ -1811,7 +1725,7 @@ Copies data from old table to new table:
 
     INSERT INTO $newtable SELECT * FROM $oldtable;
 
-#rows
+#Rows
 
 This section describes operations which act on the row level (most of them).
 
@@ -1828,7 +1742,7 @@ Insert into the same order as parameters given:
 
     INSERT INTO t VALUES (1, 'ab');
 
-Insert into serveral at once:
+Insert into several at once:
 
     INSERT INTO t VALUES (1, 'ab'), (2, 'bc');
 
@@ -1909,13 +1823,11 @@ Removes all entries from a table:
 
     TRUNCATE TABLE table_name;
 
-Similar to `DELETE FROM table_name`, but with some subtle differences,
-in particular a possible performance gain, since TRUNCATE actually drops and recreates the table.
+Similar to `DELETE FROM table_name`, but with some subtle differences, in particular a possible performance gain, since TRUNCATE actually drops and recreates the table.
 
 ##select
 
-Choose certain table columns to take further actions on them.
-Returns chosen columns.
+Choose certain table columns to take further actions on them. Returns chosen columns.
 
 Print all data of column `col` of table `table`:
 
@@ -1938,7 +1850,7 @@ Multiple tables:
     SELECT * FROM t, t2 ORDER BY t.i, t2.j;
     DROP TABLE t, t2;
 
-Output is the cartesian product of the two tables:
+Output is the Cartesian product of the two tables:
 
     i   j
     1   2
@@ -1959,7 +1871,7 @@ Output:
 
     ERROR 1054 (42S22): Unknown column 't2.j' in 'order clause'
 
-Table names are ommited from the headers. To disambiguate use `AS`.
+Table names are omitted from the headers. To disambiguate use `AS`.
 
 ###column that is a function of other columns
 
@@ -1983,8 +1895,7 @@ Output:
 
 ###single values
 
-Besides selecting rows from columns, `SELECT` can also select single values
-or expressions.
+Besides selecting rows from columns, `SELECT` can also select single values or expressions.
 
 These are treated as if they were rows with the same name as the input expression.
 
@@ -2024,11 +1935,9 @@ Output:
 
 Filter only certain rows.
 
-Any function or operator that returns a boolean can be used by substituting
-the value of the row by its name (`c0`, `c1`, etc.):
+Any function or operator that returns a boolean can be used by substituting the value of the row by its name (`c0`, `c1`, etc.):
 
-It is not possible to refer to a column that have be created in the query
-via `AS` or an aggregate function on the same command as in `(1)` and `(2)`.
+It is not possible to refer to a column that have be created in the query via `AS` or an aggregate function on the same command as in `(1)` and `(2)`.
 
     CREATE TABLE t (c0 INT, c1 INT);
     INSERT INTO t VALUES (0, 0), (0, 1), (1, 0), (2, 0);
@@ -2043,8 +1952,7 @@ via `AS` or an aggregate function on the same command as in `(1)` and `(2)`.
     SELECT c0+c1        FROM t WHERE `c0+c1` > 0; #(2)
     DROP TABLE t;
 
-It would of course be possible to get all the results and then filter them using
-a programming language, but the list of all results might be too long.
+It would of course be possible to get all the results and then filter them using a programming language, but the list of all results might be too long.
 
 ###order by
 
@@ -2086,8 +1994,7 @@ Possible output (up to reordering unspecified orders):
     2
     2
 
-If not used, the orders are unspecified.
-Almost all `SELECT` statements done in practice will have specified order.
+If not used, the orders are unspecified. Almost all `SELECT` statements done in practice will have specified order.
 
 ###limit
 
@@ -2135,8 +2042,7 @@ Output:
     0    1
     1    0
 
-`SELECT DISTINCT` is applied after aggregate functions,
-so you probably don't to use them together.
+`SELECT DISTINCT` is applied after aggregate functions, so you probably don't to use them together.
 
 If you want to do that, consider one of the following solutions
 
@@ -2184,7 +2090,7 @@ Output:
 
 It is mandatory to rename the subquery as something using `AS` or else this produces an error.
 
-Ok:
+OK:
 
     CREATE TABLE t (c0 INT, c1 INT);
     INSERT INTO t VALUES (1, 1), (2, 4), (3, 9);
@@ -2273,8 +2179,7 @@ Output:
 
 but that would be bad since it duplicates the calculation code `c0 + c1`.
 
-The above example is not the best way to achieve this task since
-`MAX(c0 + c1)` would work too.
+The above example is not the best way to achieve this task since `MAX(c0 + c1)` would work too.
 
 Mandatory to rename subqueries. See subquery.
 
@@ -2331,9 +2236,7 @@ Output:
 
 Without an aggregate function, works like `DISTINCT`.
 
-However, do not rely on that and prefer `DISTINCT` instead,
-since `GROUP BY` is designed to work with aggregates, and may have subtly different semantics:
-<http://stackoverflow.com/questions/164319/is-there-any-difference-between-group-by-and-distinct>
+However, do not rely on that and prefer `DISTINCT` instead, since `GROUP BY` is designed to work with aggregates, and may have subtly different semantics: <http://stackoverflow.com/questions/164319/is-there-any-difference-between-group-by-and-distinct>
 
     CREATE TABLE t (c0 CHAR(1), c1 INT);
     INSERT INTO t VALUES ('a', 1), ('a', 2), ('b', 3), ('b', 3);
@@ -2590,7 +2493,7 @@ Output:
     one         1
     one again   1
 
-`INNER JOIN` is symmtrical, unlike `LEFT JOIN` in the `NULL` case:
+`INNER JOIN` is symmetric, unlike `LEFT JOIN` in the `NULL` case:
 
     CREATE TABLE names (i INT, name VARCHAR(16));
     CREATE TABLE roots (i INT, root INT);
@@ -2643,13 +2546,11 @@ Output:
 
 Multiple `ON` conditions can be used instead of `WHERE` clauses.
 
-The behaviour is the same except for edge cases <http://stackoverflow.com/a/7967048/895245>.
+The behavior is the same except for edge cases <http://stackoverflow.com/a/7967048/895245>.
 
-In theory `ON` is more efficient, but because of optimizers in practice
-both are almost always the same speed.
+In theory `ON` is more efficient, but because of optimizers in practice both are almost always the same speed.
 
-Because of the slim possibilities of slowdown and the edge case, always use
-multiple `ON` conditions instead of `WHERE`.
+Because of the slim possibilities of slowdown and the edge case, always use multiple `ON` conditions instead of `WHERE`.
 
     CREATE TABLE names (i INT, name VARCHAR(16));
     CREATE TABLE squares (i INT, square INT);
@@ -2744,11 +2645,11 @@ List all current SSVs:
 
     SHOW VARIABLES;
 
-List all current SSVs that match a given mysql regexp:
+List all current SSVs that match a given MySQL regexp:
 
     SHOW VARIABLES LIKE "%version%";
 
-Fileter SSVs by any method accepted by `WHERE`:
+Filter SSVs by any method accepted by `WHERE`:
 
     SHOW VARIABLES WHERE Variable_name LIKE "%version%";
 
@@ -2762,8 +2663,7 @@ This method is more general and verbose than using `LIKE`.
 
 The `SET` command may be used to set the values of variables.
 
-Note that `SET` can also appear on other contexts such as `SET PASSWORD`,
-which have no relation to variables.
+Note that `SET` can also appear on other contexts such as `SET PASSWORD`, which have no relation to variables.
 
 ###variable types
 
@@ -2789,7 +2689,7 @@ On that tables, variables have different properties:
 
         Those variables can be accessed and modified via `SHOW GLOBAL VARIABLES` and `SET GLOBAL`.
 
-        Since those variables affect the behaviour of the entire server,
+        Since those variables affect the behavior of the entire server,
         modifying them requires the `super` privilege, and they are intended to modify
         server operation without restarting it.
 
@@ -2805,8 +2705,7 @@ On that tables, variables have different properties:
 
 Variables that control the server configuration.
 
-Those variables are set at startup depending on how `mysqld` is compiled and configured,
-but from 4.0.3 onwards they can also be modified without restarting the server via `SET` commands.
+Those variables are set at startup depending on how `mysqld` is compiled and configured, but from 4.0.3 onwards they can also be modified without restarting the server via `SET` commands.
 
 List `mysqld` variables and values after reading the configuration files:
 
@@ -2814,8 +2713,7 @@ List `mysqld` variables and values after reading the configuration files:
 
 ##user-defined variable
 
-User defined variables are variables defined by clients on the server,
-which last only until the end of the current session.
+User defined variables are variables defined by clients on the server, which last only until the end of the current session.
 
 User defined variables must be prefixed by the at sign `@`.
 
@@ -2850,8 +2748,7 @@ Output:
     @v1    @v2
     2    2
 
-Note how `SELECT @v1 := 2, @v2 = 2;` only changes the value of `@v1`,
-while all that the second part of the statment does is to compare `@v2` to `2`.
+Note how `SELECT @v1 := 2, @v2 = 2;` only changes the value of `@v1`, while all that the second part of the statment does is to compare `@v2` to `2`.
 
 Assign user variables in `SELECT` from an aggregate function:
 
@@ -2861,7 +2758,7 @@ Assign user variables in `SELECT` from an aggregate function:
     SELECT @max;
     DROP TABLE t;
 
-output:
+Output:
 
     @max := MAX(c)
     2
@@ -2884,13 +2781,10 @@ Output:
 
 because `1` was the last value.
 
-It is likely that you will only want to do this kind of operation if you are sure that there is only a single `SELECT`
-output row, either because of a `WHERE unique_col = val` or `LIMIT 1`.
-
+It is likely that you will only want to do this kind of operation if you are sure that there is only a single `SELECT` output row, either because of a `WHERE unique_col = val` or `LIMIT 1`. 
 #functions and operators
 
-Be aware that the presence of `NULL` can create many exceptions
-on the expected behaviour of functions.
+Be aware that the presence of `NULL` can create many exceptions on the expected behavior of functions.
 
 ##arithmetic operators
 
@@ -2983,13 +2877,9 @@ Sum of a column.
 
 It is possible to use any function of the input row such as `c0 * c1`.
 
-It is possible to make two aggregate function queries on the same `SELECT` as in
-`(1)`, but making a non-aggregate function query with
-an aggregate function query only shows the first non aggregate output as in `(2)`,
-which is probably not what you want.
+It is possible to make two aggregate function queries on the same `SELECT` as in `(1)`, but making a non-aggregate function query with an aggregate function query only shows the first non aggregate output as in `(2)`, which is probably not what you want.
 
-`WHERE` is aplied before aggregate functions,
-and selects which rows will be used for the calculation of the aggregate.
+`WHERE` is applied before aggregate functions, and selects which rows will be used for the calculation of the aggregate.
 
     CREATE TABLE t (c0 INT, c1 INT);
     INSERT INTO t VALUES (1, 1), (2, 4), (3, 9);
@@ -3029,8 +2919,7 @@ Output:
     c0  SUM(c0)
     1   5
 
-Null is treated as TODO: is giving 1 in 5.5. But I have seen many places say it could break up,
-like return NULL.
+Null is treated as TODO: is giving 1 in 5.5. But I have seen many places say it could break up, like return NULL.
 
     CREATE TABLE t (c INT);
     INSERT INTO t VALUES (1), (NULL);
@@ -3071,8 +2960,7 @@ Output:
 
 Return the number of non `NULL` entries of a column.
 
-`COUNT(*)` counts the total number of entries of a table,
-including entries that only contain `NULL` values.
+`COUNT(*)` counts the total number of entries of a table, including entries that only contain `NULL` values.
 
     CREATE TABLE t (c0 INT, c1 INT);
     INSERT INTO t VALUES (0, 0), (1, NULL), (NULL, NULL);
@@ -3094,8 +2982,7 @@ Output:
 
 ###exists
 
-Takes a subquery and returns `TRUE` iff that subquery has at least one row,
-even if all its values are `NULL`.
+Takes a subquery and returns `TRUE` iff that subquery has at least one row, even if all its values are `NULL`.
 
     CREATE TABLE t(c0 INT);
     SELECT EXISTS( SELECT * FROM t );
@@ -3112,8 +2999,7 @@ Output:
 
 A view is simply pre prepared SQL query that is run whenever the view name is used.
 
-It is intended to look like a table in some respects,
-for example it occupies the same namespace as tables.
+It is intended to look like a table in some respects, for example it occupies the same namespace as tables.
 
 It is *not* a temporary table: the query is done every time the view is used.
 
@@ -3191,11 +3077,9 @@ Output:
 
 Note that the `DELIMITER` command does not need to be delimited by any delimiter.
 
-Delimiter changing can be useful when defining functions or triggers when we want
-the delimiter sequence `;` to appear in the middle of the function.
+Delimiter changing can be useful when defining functions or triggers when we want the delimiter sequence `;` to appear in the middle of the function.
 
-It is common practice to change the delimiter to `$$` in those cases,
-and restore it immediatly after the function definition.
+It is common practice to change the delimiter to `$$` in those cases, and restore it immediately after the function definition.
 
 #user defined functions
 
@@ -3203,12 +3087,9 @@ TODO
 
 #triggers
 
-Triggers are like user defined functions that happen automatically
-before or after a row is `INSERTED`, `UPDATED` or `DELETED`.
+Triggers are like user defined functions that happen automatically before or after a row is `INSERTED`, `UPDATED` or `DELETED`.
 
-One advantage of triggers is that they require less query transfer to the server.
-Triggers could be repleced by consistent use of an API that does the two operations,
-but that API has to transfer two commands to the server every time.
+One advantage of triggers is that they require less query transfer to the server. Triggers could be replaced by consistent use of an API that does the two operations, but that API has to transfer two commands to the server every time.
 
 Good tutorial on triggers: <http://net.tutsplus.com/tutorials/databases/introduction-to-mysql-triggers/>
 
@@ -3233,12 +3114,9 @@ Note how:
 
 #transaction
 
-Sometimes many queries are part of a single logical step, and if one of the queries fails,
-then what we want to do is to go back to the state before the initial step.
-This is the function of transaction commands.
+Sometimes many queries are part of a single logical step, and if one of the queries fails, then what we want to do is to go back to the state before the initial step. This is the function of transaction commands.
 
-Only certain engines support transactions. To find out which, use `SHOW ENGINES`;
-As of MySQL 5.5 the only engine that supports transactions is InnoDB.
+Only certain engines support transactions. To find out which, use `SHOW ENGINES`; As of MySQL 5.5 the only engine that supports transactions is InnoDB.
 
 ##autocommit
 
@@ -3246,8 +3124,7 @@ The `autocommit` server system variable determines if each command is committed 
 
 By default it is usually `TRUE`.
 
-After a transaction starts with `START TRANSACTION`, it is automatically set to `FALSE`,
-and when a transaction ends it assumes the value before the `START TRANSACTION` command.
+After a transaction starts with `START TRANSACTION`, it is automatically set to `FALSE`, and when a transaction ends it assumes the value before the `START TRANSACTION` command.
 
 Therefore, there is normally no need to set it explicitly.
 
@@ -3328,8 +3205,7 @@ TODO why does `autocommit` never change?
 
 Synchronization method when multiple session attempt to access a single table.
 
-To prevent other sessions from using a table, one session acquires certain locks,
-and while those are acquired other session cannot do anything.
+To prevent other sessions from using a table, one session acquires certain locks, and while those are acquired other session cannot do anything.
 
 If a lock is owned by another session, the blocked session waits until the lock is freed.
 
@@ -3393,11 +3269,9 @@ and session one is active again.
 
 #prepared statements
 
-Before MySQL 5.0, `?` meant nothing to MySQL, only to several external interfaces
-such as PHP stdlib and web frameworks, in which the feature is commonly known as a "prepared statement".
+Before MySQL 5.0, `?` meant nothing to MySQL, only to several external interfaces such as PHP stdlib and web frameworks, in which the feature is commonly known as a "prepared statement".
 
-Starting from MySQL 5.0, it is also possible to use prepared statements directly
-inside MySQL as described [in the docs](http://dev.mysql.com/doc/refman/5.0/en/sql-syntax-prepared-statements.html).
+Starting from MySQL 5.0, it is also possible to use prepared statements directly inside MySQL as described [in the docs](http://dev.mysql.com/doc/refman/5.0/en/sql-syntax-prepared-statements.html).
 
 Example from the docs:
 
@@ -3472,7 +3346,7 @@ Output:
     a                aab
     b                baa
 
-#sources
+#Sources
 
 - <http://dev.mysql.com/doc/>
 
