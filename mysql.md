@@ -6,14 +6,13 @@ permalink: mysql/
 
 <ol data-toc></ol>
 
-#introduction
+#Introduction
 
 MySQL is an open source data base management system (DBMS).
 
 As of 2013, MySQL is the most popular server-based DBMS.
 
-MySQL runs on a server.
-The server executable is often called `mysqld`, which stands for MySQL daemon.
+MySQL runs on a server. The server executable is often called `mysqld`, which stands for MySQL daemon.
 
 This means that either TCP or UDP requests are made on a standard port
 in order to make requests to MySQL.
@@ -50,7 +49,7 @@ Contains info such as: port to listen to.
 
 CLI interface to MySQL.
 
-###login
+###Login
 
 Visualization get messy when tables don't fit into the terminal width.
 
@@ -80,7 +79,7 @@ Log in with given password:
 
 There must be no space between `-p` and `"pass"`. This has obviously the security risk of exposing your password.
 
-###use modes
+###Use modes
 
 The `mysql` CLI utility can be used either as:
 
@@ -153,7 +152,7 @@ All DBMS, includes `USE` statements.
     -d : no data
     --no-create-info : data only
 
-##restore database from file
+##Restore database from file
 
 Make sure the DB exists and that you really want to overwrite it!
 
@@ -184,7 +183,7 @@ The following have interfaces which are part of the MySQL project:
 - Perl
 - Ruby
 
-#test preparation
+#Test preparation
 
 Before doing any tests, create a test user and a test database.
 
@@ -200,7 +199,7 @@ You can now put into your `.bashrc`:
 
 and now you can type `myt` to safely run any tests.
 
-#help
+#Help
 
 The help command queries the server for MySQL help information.
 
@@ -209,11 +208,11 @@ Examples:
     HELP DROP;
     HELP DROP TABLE;
 
-#newlines
+#Newlines
 
 Newlines only have an effect when inside quotes. In other places, newlines are ignored.
 
-#semicolon
+#Semicolon
 
 A semicolon is required at the end of each command. Newlines do not work. For example:
 
@@ -226,7 +225,7 @@ is the same as
 
 and therefore produces an error.
 
-#comments
+#Comments
 
 Single line comments can be done with the number sign `#`.
 
