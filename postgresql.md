@@ -4,6 +4,8 @@ layout: default
 permalink: postgresql/
 ---
 
+This tutorial supposes you know MySQL and teaches by analogy to it.
+
 CLI executable name: `psql`
 
 #Get started
@@ -43,3 +45,35 @@ Using the `postgres` PostgreSQL user you can create new users as:
 #Role
 
 In PostgreSQL, an user is commonly called a *role*.
+
+#Slash commands
+
+##h
+
+Get help:
+
+    \h
+
+##USE
+
+##c
+
+Connect to a database.
+
+    \c database_name
+
+##SHOW TABLES
+
+##dt
+
+List all tables on current database:
+
+    \dt
+
+##DESC
+
+##d
+
+Describe table:
+
+    \d+
