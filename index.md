@@ -1,5 +1,5 @@
 ---
-title: Index
+title: Database Tutorials
 layout: default
 ---
 
