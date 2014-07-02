@@ -20,13 +20,18 @@ The first login can only be done by the `postgres` user, so you must do:
 
     sudo -u postgres psql template1
 
-Where `template1` is the name of a database which always exists on new installations. If not given, login may fail, since it tries to use a default database with the same name as the username `postgres`.
+Where `template1` is the name of a database which always exists on new installations.
+If not given, login may fail, since it tries to use a default database with the same name as the username `postgres`.
 
 This only works if the authentication method for `postgres` is `peer`.
 
-`peer` means that if the OS user named `XXX` is logged in, then he can automatically login on the database if `XXX` exists on the database, without having a database password.
+`peer` means that if the OS user named `XXX` is logged in,
+then he can automatically login on the database if `XXX` exists on the database,
+without having a database password.
 
-The other major method of authentication is `md5`, which can work for users that don't exist in the OS and requires a password. This method is safer, but you will have to type more every time.
+The other major method of authentication is `md5`,
+which can work for users that don't exist in the OS and requires a password.
+This method is safer, but you will have to type more every time.
 
 This can be set under the following configuration file:
 
