@@ -379,13 +379,21 @@ Output:
 
 Can only use upper case `E`.
 
-## Boolean
+## Boolean types
 
-    SELECT TRUE, FALSE;
+## TRUE
+
+## FALSE
+
+Aliases to `0` and `1`.
+
+    SELECT TRUE = 1;
+    SELECT FALSE = 0;
 
 Output:
 
-    1, 0
+    1
+    1
 
 ## NULL literal
 
@@ -1343,6 +1351,44 @@ since its binary representation is infinite.
 
 This is important for example in financial computations,
 where errors can add up and make a big difference on the resulting output.
+
+### BIT
+
+Introduced in 5.3: truly capable of storing a bit in one bit of memory.
+
+<http://stackoverflow.com/questions/289727/which-mysql-datatype-to-use-for-storing-boolean-values>
+
+    CREATE TABLE t ( b BIT );
+    INSERT INTO t VALUES ( FALSE );
+    INSERT INTO t VALUES ( TRUE );
+    SELECT * FROM t;
+    DROP TABLE t;
+
+Output:
+
+    b
+
+    ^A
+
+Before it, best option was `BOOL` or `BOOLEAN`
+
+### BOOL
+
+### BOOLEAN
+
+Aliases for `TINYINT`:
+
+    CREATE TABLE t ( b BOOL );
+    INSERT INTO t VALUES ( FALSE );
+    INSERT INTO t VALUES ( TRUE );
+    SELECT * FROM t;
+    DROP TABLE t;
+
+Output:
+
+    b
+    0
+    1
 
 ### DATE
 
