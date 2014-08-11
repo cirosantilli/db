@@ -8,21 +8,38 @@ A key value server, also known as NoSQL database.
 
 Default port is TCP/6379.
 
-Can store complex data structures like lists, sets and maps.
-
 Values can have an expire time.
 
 Once the server is running, command line REPL interface:
 
     redis-cli
 
-#Things Redis can't do that RDMSs can
+# vs MySQL
+
+- <http://stackoverflow.com/questions/3966689/when-to-use-redis-instead-of-mysql-for-php-applications>
+- <http://www.mysqlperformanceblog.com/2009/08/27/looking-at-redis/>
+
+TODO check everything bellow, in particular if MySQL can do each of those things.
+
+Can store complex data structures like lists, sets and maps,
+MySQL only represents those structures indirectly with tables and columns.
+
+Loads all of it's data on RAM, persists it by default to disk.
+Therefore faster than MySQL which always reads from disk TODO check
+but it can store much less data. TODO possible to not load everything on RAM?
+
+Only saves modifications to disk from time to time,
+thus lower durability, and greater performance.
+
+Pipelining support: multiple operations on a single HTTP request.
+
+# Things Redis can't do that RDMSs can
 
 As far as we can tell:
 
 - `SUM`
 
-#SET and GET
+# SET and GET
 
 Set value to string:
 
@@ -53,7 +70,7 @@ Output:
 
     (error) ERR syntax error
 
-#INCR
+# INCR
 
 Increment integer (concurrency safe):
 
@@ -74,7 +91,7 @@ Output:
 
     (error) ERR value is not an integer or out of range
 
-#DELETE
+# DELETE
 
 Undefined key returns nil:
 
@@ -94,17 +111,17 @@ Output:
 
     (nil)
 
-#Data types
+# Data types
 
-##String
+## String
 
 Base data type.
 
-##Integer
+## Integer
 
 There is no integer data type, only strings that can be converted to integers or not.
 
-##List
+## List
 
     LPUSH list a
     LPUSH list b

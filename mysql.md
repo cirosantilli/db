@@ -772,19 +772,34 @@ Searches without indexes take $log(n)$ worst case since they mean looking up eve
 Indexed searches can be done either in $O(log(n))$ or $O(1)$
 since they are implemented as B-trees or as a hash maps of values to positions.
 
-As of 5.5, the only engine that supports hash is `MEMORY`.
-Index type can be specified via `USING {BTREE|HASH}`.
-`USING` is ignored in case that the engine does not support the index type.
-
-Because of the nature of the indexes, a hash index is only useful for `=` comparison,
-while a `BTREE` can also be used for `<`, `>` and `LIKE`.
-
 Each index speeds up searches on the row or the rows it covers.
 A single table may have more than one index for different columns.
 
 Every data type can be used on indexes,
 but there are limits on how many bytes can be used for an index,
-so `TEXT` and `BLOB` types require that the number of bytes to be used be specified.
+so potentially huge columns like `TEXT` and `BLOB` types
+require that the number of bytes to be used be specified.
+
+### USING
+
+### Index data structure
+
+As of 5.5, the only engine that supports hash is `MEMORY`.
+Index type can be specified via `USING {BTREE|HASH}`.
+`USING` is ignored in case that the engine does not support the index type.
+
+Because of the nature of the indexes, a hash index is only useful for `=` comparison,
+while a `BTREE` can also be used for `<`, `>`, `LIKE` and `ORDER BY`.
+
+`BTREE` indexes can also be specified either `ASC` or `DESC` order.
+While it does not make any difference for a single column, PostgreSQL's manual
+explains why this exists:
+<http://www.postgresql.org/docs/8.3/static/indexes-ordering.html>
+it does make a difference for a multi column index.
+MySQL currently ignores this parameter, and is unable to optimize
+do mixed ordering queries like:
+
+    SELECT col0 FROM table0 ORDER BY
 
 ### Index name
 
@@ -2254,6 +2269,8 @@ Possible output (up to reordering unspecified orders):
 If not used, the orders are unspecified.
 Almost all `SELECT` statements done in practice will have specified order.
 
+This query can be optimized by B-Tree indexes on MySQL and PostgreSQL.
+
 ### LIMIT
 
 Limit the number of outputs.
@@ -3419,7 +3436,15 @@ after it has been optimized.
 
 Useful to help the optimizer optimize queries.
 
-# Transaction
+# ACID
+
+Four properties that describe how databases deal with messy situations like power-offs and concurrent access.
+
+The following are ACID related MySQL features.
+
+<http://stackoverflow.com/questions/21584207/are-mysql-queries-atomic>
+
+## Transaction
 
 Sometimes many queries are part of a single logical step,
 and if one of the queries fails,
@@ -3430,7 +3455,7 @@ Only certain engines support transactions.
 To find out which, use `SHOW ENGINES`;
 As of MySQL 5.5 the only engine that supports transactions is InnoDB.
 
-## autocommit
+### autocommit
 
 The `autocommit` server system variable determines
 if each command is committed immediately or not.
@@ -3517,12 +3542,11 @@ Note that:
 
 TODO why does `autocommit` never change?
 
-# Locks
+## Locks
 
 Synchronization method when multiple session attempt to access a single table.
 
-To prevent other sessions from using a table,
-one session acquires certain locks,
+To prevent other sessions from using a table, one session acquires certain locks,
 and while those are acquired other session cannot do anything.
 
 If a lock is owned by another session, the blocked session waits until the lock is freed.
@@ -3586,7 +3610,7 @@ Output:
 
 and session one is active again.
 
-# prepared statements
+# Prepared statements
 
 Before MySQL 5.0, `?` meant nothing to MySQL,
 only to several external interfaces such as PHP stdlib and web frameworks,
@@ -3607,6 +3631,15 @@ Output:
 
     hypotenuse
     5
+
+# Master slave replication
+
+Backup the database to a second identical one as queries are being made.
+
+Useful to make backups of the database, possibly to safely do processing operations
+while on in a sandboxed mode.
+
+- <https://www.digitalocean.com/community/tutorials/how-to-set-up-master-slave-replication-in-mysql>
 
 # Associations
 

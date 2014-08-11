@@ -5,10 +5,11 @@ layout: default
 
 Most useful tutorials:
 
-- [MySQL](mysql)
+- [MySQL](mysql). This should be the first section you look at:
+    every other technology is explained in comparison to it.
 - [PostgreSQL](postgresql)
 
 Less useful tutorials:
 
 - [Redis](redis)
-- [Sqlite](sqlite)
+- [SQLite](sqlite)
