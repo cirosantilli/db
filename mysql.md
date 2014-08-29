@@ -1,6 +1,5 @@
 ---
 title: MySQL
-layout: default
 permalink: mysql/
 ---
 

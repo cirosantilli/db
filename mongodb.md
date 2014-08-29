@@ -1,12 +1,11 @@
 ---
 title: MongoDB
-layout: default
 permalink: mongodb/
 ---
 
-NoSQL database: looks like manipulating dicts / objects in Python / Ruby.
+NoSQL database: looks like manipulating dictionaries / objects in Python / Ruby.
 
-No fixed table format: everything is a dict.
+No fixed table format: everything is a dictionary.
 
 CLI client:
 

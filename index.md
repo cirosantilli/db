@@ -1,6 +1,5 @@
 ---
 title: Database Tutorials
-layout: default
 ---
 
 Most useful tutorials:

@@ -1,6 +1,5 @@
 ---
 title: Redis
-layout: default
 permalink: redis/
 ---
 

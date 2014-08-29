@@ -1,6 +1,5 @@
 ---
 title: PostgreSQL
-layout: default
 permalink: postgresql/
 ---
 

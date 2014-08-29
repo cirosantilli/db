@@ -1,6 +1,5 @@
 ---
-title: Sqlite
-layout: default
+title: SQLite
 permalink: sqlite/
 ---
 
