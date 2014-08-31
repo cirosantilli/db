@@ -81,3 +81,19 @@ List all tables on current database:
 Describe table:
 
     \d+
+
+# Tools
+
+## pgAdmin
+
+pgAdmin is a popular GUI (not browser based) tool to view and edit Pg tables.
+
+Ubuntu 12.04 install:
+
+    suto apt-get install -y pgadmin3
+
+Run:
+
+    pgadmin3
+
+To view data, select the table, right click then View Data

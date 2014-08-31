@@ -1576,7 +1576,9 @@ bytes are stored as is.
 
 Mostly useful for non-textual data.
 
-### BLOB and TEXT
+### BLOB
+
+### TEXT
 
 `BLOB` and `TEXT` are very similar to `VARBINARY` and `VARCHAR`:
 <http://stackoverflow.com/questions/2023481/mysql-large-varchar-vs-text>.
@@ -3128,8 +3130,8 @@ Output:
 
 Regex subset:
 
-- `%` is PERL `.*`
-- `_` is PERL `.`
+- `%` is Perl `.*`
+- `_` is Perl `.`
 
 `\%` and `\_` escape.
 
@@ -3151,7 +3153,7 @@ Output:
 
 ## REGEXP
 
-Similar to `LIKE` but uses Perl-like regexps, so it is much more powerful.
+Similar to `LIKE` but uses Perl-like regexps, so it is strictly more powerful.
 
     SELECT 'a'   REGEXP 'ab';
     SELECT 'abc' REGEXP '^a.(c|d)$';
@@ -3168,6 +3170,30 @@ Output:
 Output:
 
     dcba
+
+## SOUNDEX
+
+<http://en.wikipedia.org/wiki/Soundex>
+
+English words to similar sounds representation.
+
+    SELECT SOUNDEX('Robert');
+    SELECT SOUNDEX('Rupert');
+
+Output:
+
+    R163
+    R163
+
+## SOUNDS LIKE
+
+Compare `SOUNDEX` of two strings:
+
+    SELECT 'Robert' SOUNDS LIKE 'Rupert';
+
+Output:
+
+    1
 
 ## Aggregate function
 
@@ -3640,12 +3666,20 @@ while on in a sandboxed mode.
 
 - <https://www.digitalocean.com/community/tutorials/how-to-set-up-master-slave-replication-in-mysql>
 
-# Associations
+# Recipes
+
+## Levenshtein distance
+
+No built-in way.
+
+An implementation: <http://openquery.com.au/blog/levenshtein-mysql-stored-function>
+
+## Associations
 
 This section is not about MySQL itself,
 but common multi-table design patterns using MySQL.
 
-## Many to many
+### Many to many
 
 Many to many get all pairs can be done in two ways,
 either with `WHERE` (delta style) or `JOIN` (ANSI style).
@@ -3680,7 +3714,7 @@ Output of both:
     m1	         p2
     m2	         p1
 
-## Many to one two levels deep
+### Many to one two levels deep
 
 Many to one 2 levels deep all pairs:
 
