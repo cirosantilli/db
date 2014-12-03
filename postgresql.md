@@ -7,7 +7,7 @@ This tutorial supposes you know MySQL and teaches by analogy to it.
 
 CLI executable name: `psql`
 
-# Get started
+## Get started
 
 <http://stackoverflow.com/questions/1471571/how-to-configure-postgresql-for-the-first-time>
 
@@ -46,45 +46,45 @@ Using the `postgres` PostgreSQL user you can create new users as:
 
     sudo -u postgres createuser -deElPrs <my_username>
 
-# Role
+## Role
 
 In PostgreSQL, an user is commonly called a *role*.
 
-# Slash commands
+## Slash commands
 
-## h
+### h
 
 Get help:
 
     \h
 
-## USE
+### USE
 
-## c
+### c
 
 Connect to a database.
 
     \c database_name
 
-## SHOW TABLES
+### SHOW TABLES
 
-## dt
+### dt
 
 List all tables on current database:
 
     \dt
 
-## DESC
+### DESC
 
-## d
+### d
 
 Describe table:
 
     \d+
 
-# Tools
+## Tools
 
-## pgAdmin
+### pgAdmin
 
 pgAdmin is a popular GUI (not browser based) tool to view and edit Pg tables.
 

@@ -5,7 +5,7 @@ permalink: mysql/
 
 <ol data-toc></ol>
 
-# Introduction
+## Introduction
 
 MySQL is an open source data base management system (DBMS).
 
@@ -26,21 +26,35 @@ As such, it does not allow for basic features of general languages such as condi
 The server holds session state about the connection. For example, a `SHOW WARNINGS` query
 will only show warnings if the last query produced a warning.
 
-# SQL standard
+## SQL
+
+## Standards
+
+<http://en.wikipedia.org/wiki/SQL>
+
+The SQL standard is a non-free ANSI/ISO standard, and it is really hard to find good drafts.
+
+Large comparison table between implementations: <http://troels.arvin.dk/db/rdbms/>
 
 MySQL is generally compatible with the SQL standard for DBMS,
 but it is well known that there are many differences between how different DBMS implement SQL,
-so it is not safe to assume that using SQL only will increase portability too much.
-
-The SQL standard is a non-free ANSI/ISO standard.
+so it is not safe to assume that using SQL only will lead to very high portability.
 
 Other important implementations of SQL-like languages are:
 
-- PostgreSQL. Also open source.
-- SQLite.   No server, files only. Simpler,
+-   PostgreSQL. Also open source.
+
+-   SQLite. No server, files only. Simpler,
     but potentially less efficient for large servers.
 
-# MySQL server
+-   T-SQL <http://en.wikipedia.org/wiki/Transact-SQL>
+
+    Microsoft.
+
+    Primary language for <http://en.wikipedia.org/wiki/Microsoft_SQL_Server>,
+    so that the language is often refered to as "SQL Server".
+
+## MySQL server
 
 Configuration file:
 
@@ -48,13 +62,13 @@ Configuration file:
 
 Contains info such as: port to listen to.
 
-# Interfaces
+## Interfaces
 
-## MySQL utility
+### MySQL utility
 
 CLI interface to MySQL.
 
-### Login
+#### Login
 
 Visualization get messy when tables don't fit into the terminal width.
 
@@ -86,7 +100,7 @@ Log in with given password:
 There must be no space between `-p` and `"pass"`.
 This has obviously the security risk of exposing your password.
 
-### Use modes
+#### Use modes
 
 The `mysql` CLI utility can be used either as:
 
@@ -104,7 +118,7 @@ The `mysql` CLI utility can be used either as:
 
         mysql -u root -p < a.sql
 
-### Output format
+#### Output format
 
 If the output is to be given to a terminal,
 MySQL may process MySQL output to make it more human readable,
@@ -135,7 +149,7 @@ The following options are relevant:
 
     If yes, then the backslash character gets printed as `\\` to differentiate it.
 
-## mysqladmin
+### mysqladmin
 
 CLI utility that simplifies MySQL administration tasks.
 
@@ -149,7 +163,7 @@ Login as user `root` and change its password:
 It seems that it is not possible to change the password of another user with this method.
 Use `SET PASSWORD` or `UPDATE PASSWORD` for that instead.
 
-## mysldump
+### mysldump
 
 CLI utility that allows to easily save a database to a file.
 
@@ -169,7 +183,7 @@ All DBMS, includes `USE` statements.
     -d : no data
     --no-create-info : data only
 
-## Restore database from file
+### Restore database from file
 
 Make sure the DB exists and that you really want to overwrite it!
 
@@ -182,13 +196,13 @@ Make sure the DB exists and that you really want to overwrite it!
     mysql -u root -p"$PASS" -e "create database $DB2;"
     mysqldump -u root -p"$PASS" $DB | mysql -u root -p"$PASS" $DB2
 
-## phpmyadmin
+### phpmyadmin
 
 Popular PHP based browser interface for MySQL.
 
 Allows to view and modify databases on a browser.
 
-## API
+### API
 
 All major programming languages have a MySQL interface.
 
@@ -200,7 +214,7 @@ The following have interfaces which are part of the MySQL project:
 - Perl
 - Ruby
 
-# Test preparation
+## Test preparation
 
 Before doing any tests, create a test user and a test database.
 
@@ -216,7 +230,7 @@ You can now put into your `.bashrc`:
 
 and now you can type `myt` to safely run any tests.
 
-# Help
+## Help
 
 The help command queries the server for MySQL help information.
 
@@ -225,11 +239,11 @@ Examples:
     HELP DROP;
     HELP DROP TABLE;
 
-# Newlines
+## Newlines
 
 Newlines only have an effect when inside quotes. In other places, newlines are ignored.
 
-# Semicolon
+## Semicolon
 
 A semicolon is required at the end of each command. Newlines do not work. For example:
 
@@ -242,7 +256,7 @@ is the same as
 
 and therefore produces an error.
 
-# Comments
+## Comments
 
 Single line comments can be done with the number sign `#`.
 
@@ -257,7 +271,7 @@ or greater than `4.01.00` and will get executed normally.
 
 This type of version conditional comments serve a similar purpose to C `__STDC_VERSION__` typedefs.
 
-# Structure
+## Structure
 
 MySQL organizes information hierarchically as:
 
@@ -267,7 +281,7 @@ MySQL organizes information hierarchically as:
 -   each column holds a single type of information:
     numbers, characters, text ext.
 
-# Command case
+## Command case
 
 Commands are case insensitive.
 
@@ -282,7 +296,7 @@ and lowercase for names given to tables, allowing to distinguish between both ea
 while allowing names to be all lowercase,
 as is usually the convention for variable names in most modern programming languages.
 
-# Quotation types
+## Quotation types
 
 There are three types of quotations in MySQL:
 
@@ -303,7 +317,7 @@ There are three types of quotations in MySQL:
 -   double quotes: `"asdf"`. Same as single quotes.
     Single quotes are more common across DBMSs, so prefer single quotes.
 
-# Error logging
+## Error logging
 
 Errors may occur either if a request is ill-formed or if an impossible operation
 is requested such as dropping an inexistent table:
@@ -332,9 +346,9 @@ it is possible to retrieve the last error message with the `SHOW WARNINGS` funct
 Besides the `error` level, MySQL logging also represents the warning level,
 and the note level. `SHOW WARNINGS` shows the last error, warning or note.
 
-# Literal values
+## Literal values
 
-## Strings
+### Strings
 
 Literal strings can be either single or double quoted:
 
@@ -352,7 +366,7 @@ Output:
 
     ab\nc
 
-## Numeric types
+### Numeric types
 
 C-like.
 
@@ -378,11 +392,11 @@ Output:
 
 Can only use upper case `E`.
 
-## Boolean types
+### Boolean types
 
-## TRUE
+### TRUE
 
-## FALSE
+### FALSE
 
 Aliases to `0` and `1`.
 
@@ -394,7 +408,7 @@ Output:
     1
     1
 
-## NULL literal
+### NULL literal
 
 Represents absence of data.
 
@@ -404,12 +418,12 @@ Output:
 
     NULL
 
-## Literal tables
+### Literal tables
 
 It seems that it is not possible to directly create literal rows or tables:
 <http://stackoverflow.com/questions/985295/can-you-define-literal-tables-in-sql>
 
-# Identifiers
+## Identifiers
 
 Identifiers are names for things like databases or tables.
 
@@ -426,7 +440,7 @@ But the following are not:
     CREATE TABLE a b (col0 INT);
     CREATE TABLE aé (col0 INT);
 
-# Special databases
+## Special databases
 
 As soon as you install MySQL, certain databases already exist:
 
@@ -438,7 +452,7 @@ used by MySQL such as user information, database metadata, etc.
 
 Be very careful when editing those databases directly.
 
-# Users
+## Users
 
 MySQL has the concept of users and permissions analogous to POSIX users and permissions.
 
@@ -525,7 +539,7 @@ and, only if `INSERT`, `UPDATE` or `DELETE` are used directly.
 
 Also consider using the `mysqladmin` utility for this task.
 
-# flush
+## FLUSH
 
 Flush tells MySQL to load to the `mysqld` memory metadata
 that has been modified in the control table `mysql`, making it take effect.
@@ -534,7 +548,7 @@ For example, `INSERT` can be used to modify users and permissions on the `mysql`
 but it does take effect in the running MySQL instance unless a `FLUSH PRIVILEGES` is done,
 which makes the server load this new information and put it into effect.
 
-# Database
+## Database
 
 List all databases:
 
@@ -559,7 +573,7 @@ Sample output:
     Database    Create Database
     test    CREATE DATABASE `test` /*!40100 DEFAULT CHARSET latin1 */
 
-## USE
+### USE
 
 Choose default database.
 
@@ -591,7 +605,7 @@ Get current default database:
 
     SELECT DATABASE();
 
-# Table operations
+## Table operations
 
 List all tables in current DB:
 
@@ -601,7 +615,7 @@ List all tables in given DB named `db`:
 
     SHOW TABLES IN db;
 
-## CREATE TABLE
+### CREATE TABLE
 
 Create a new table with the given columns:
 
@@ -641,7 +655,7 @@ Creates a new table with same structure as another existing one:
 
     CREATE TABLE newtable LIKE oldtable;
 
-## CREATE TABLE SELECT
+### CREATE TABLE SELECT
 
 Create a table from the result of a `SELECT` query.
 
@@ -657,7 +671,7 @@ Output:
     1
     2
 
-## DROP TABLE
+### DROP TABLE
 
 Delete given tables:
 
@@ -668,7 +682,7 @@ Delete given tables:
 
 The output should contain neither `t0` nor `t1`.
 
-### SHOW CREATE TABLE
+#### SHOW CREATE TABLE
 
 Shows the exact command needed to to create a table,
 including options that depend on defaults and were not explicitly given at table creation.
@@ -691,7 +705,7 @@ Output:
       UNIQUE KEY `c1` (`c1`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='table comment'
 
-## alter
+### alter
 
 Modify table and column properties.
 
@@ -748,9 +762,9 @@ or to do it automatically one must tamper with `information_schema`.
 
 A `FOREIGN KEY` constraint can only be removed via `DROP FOREIGN KEY`, not `DROP CONSTRAINT`.
 
-## table modifiers
+### table modifiers
 
-## Indexes
+### Indexes
 
 An index is a technique to speed up searches at the cost of:
 
@@ -779,9 +793,9 @@ but there are limits on how many bytes can be used for an index,
 so potentially huge columns like `TEXT` and `BLOB` types
 require that the number of bytes to be used be specified.
 
-### USING
+#### USING
 
-### Index data structure
+#### Index data structure
 
 As of 5.5, the only engine that supports hash is `MEMORY`.
 Index type can be specified via `USING {BTREE|HASH}`.
@@ -800,7 +814,7 @@ do mixed ordering queries like:
 
     SELECT col0 FROM table0 ORDER BY
 
-### Index name
+#### Index name
 
 Every index has an unique name.
 
@@ -808,11 +822,11 @@ If not given explicitly, the name is automatically generated by MySQL.
 
 Two indexes cannot have the same name.
 
-### KEY
+#### KEY
 
 Same as `INDEX`.
 
-### INDEX
+#### INDEX
 
 Same as `KEY`.
 
@@ -845,7 +859,7 @@ Note that there were no errors.
 It is also common to make the key `NOT NULL`,
 which helps MySQL do certain optimizations.
 
-#### Multi-column index
+##### Multi-column index
 
 TODO check all of this section.
 
@@ -907,7 +921,7 @@ and a multi-column `INDEX` is generally faster.
     EXPLAIN SELECT * FROM t WHERE val = 'one2' AND id = 1;
     DROP TABLE t;
 
-### UNIQUE
+#### UNIQUE
 
 Enforces uniqueness of each value of a row, except for `NULL`
 which may appear several times.
@@ -941,7 +955,7 @@ Unique pairs:
     SELECT * FROM t;
     DROP TABLE t;
 
-### PRIMARY KEY
+#### PRIMARY KEY
 
 Implies the behaviors of `UNIQUE` and `NOT NULL`, that is:
 
@@ -970,7 +984,7 @@ Example:
     SELECT * FROM t;
     DROP TABLE t;
 
-### FOREIGN KEY
+#### FOREIGN KEY
 
 Constraint that states that a row points to `PRIMARY KEY` of another table.
 
@@ -1138,13 +1152,13 @@ For `InnoDB` as of 5.5 the following options are supported:
 
         DROP TABLE books, authors;
 
-### FULLTEXT
+#### FULLTEXT
 
 Index that allows for faster searches into string fields such as `VARCHAR` or `TEXT`.
 
 As of 5.5 only available on MyISAM tables, not the default InnoDB.
 
-### SHOW INDEX
+#### SHOW INDEX
 
 Get information about indexes on table.
 
@@ -1201,7 +1215,7 @@ Output:
          NULL | NULL   | YES  | FULLTEXT   |         |               |
     ----------+--------+------+------------+---------+---------------+
 
-## Engine
+### Engine
 
 Each table has an engine assigned to it.
 
@@ -1249,7 +1263,7 @@ If is possible to retrieve the table type via `SHOW CREATE TABLE`;
     SHOW CREATE TABLE t;
     DROP TABLE t;
 
-## Temporary table
+### Temporary table
 
 A table that only exists per session and expires at the end of a session.
 
@@ -1289,7 +1303,7 @@ The above should output `0`, meaning that the non temporary table remains.
 
 The output should not contain `t`, since only the temporary table exists now.
 
-### DROP TEMPORARY
+#### DROP TEMPORARY
 
 It is preferred to use `DROP TEMPORARY TABLE`
 instead of just `DROP TABLE` to delete temporary tables
@@ -1310,13 +1324,13 @@ since it is not possible to `DROP TEMPORARY` on a non temporary table.
     DROP TEMPORARY TABLE t;
     DROP TABLE t;
 
-# Column operations
+## Column operations
 
-## Data types
+### Data types
 
 Each column holds a specific data type.
 
-### Int types
+#### Int types
 
 - `TINYINT`  : 1 byte
 - `SMALLINT` : 2 bytes
@@ -1339,7 +1353,7 @@ MySQL offers unsigned versions to those types, but this is not SQL portable.
     SELECT * FROM t;
     DROP TABLE t;
 
-#### INT overflow
+##### INT overflow
 
 In case of overflow, the server silently stores the largest possible value:
 
@@ -1356,7 +1370,7 @@ Output:
 
 since `32767 == 0x8FFF` is the largest possible value.
 
-### DECIMAL
+#### DECIMAL
 
 Represents decimal fractions precisely unlike floats.
 
@@ -1366,7 +1380,7 @@ since its binary representation is infinite.
 This is important for example in financial computations,
 where errors can add up and make a big difference on the resulting output.
 
-### BIT
+#### BIT
 
 Introduced in 5.3: truly capable of storing a bit in one bit of memory.
 
@@ -1386,9 +1400,9 @@ Output:
 
 Before it, best option was `BOOL` or `BOOLEAN`
 
-### BOOL
+#### BOOL
 
-### BOOLEAN
+#### BOOLEAN
 
 Aliases for `TINYINT`:
 
@@ -1404,7 +1418,7 @@ Output:
     0
     1
 
-### DATE
+#### DATE
 
 Holds a year / month / day date.
 
@@ -1470,7 +1484,7 @@ Sample output:
     0000-00-00
     0000-00-00
 
-### DATETIME
+#### DATETIME
 
 Holds a `YYYY-MM-DD HH:mm:SS` time.
 
@@ -1484,7 +1498,7 @@ Like for `date`, any punctuation char is acceptable as separator.
 
 Range: `1000-01-01 00:00:00` to `9999-12-31 23:59:59`.
 
-### TIMESTAMP
+#### TIMESTAMP
 
 Vs `datetime`: <http://stackoverflow.com/questions/409286/datetime-vs-timestamp>
 
@@ -1515,7 +1529,7 @@ wait, and then:
     SELECT * FROM t;
     DROP TABLE t;
 
-### CHAR and VARCHAR
+#### CHAR and VARCHAR
 
 `CHAR` and `VARCHAR` both store strings of characters in the given column encoding and collation.
 
@@ -1569,16 +1583,16 @@ Output:
     ab
     ab
 
-### BINARY
+#### BINARY
 
 Similar to `CHAR`, except that the column is not affected by encoding and collation:
 bytes are stored as is.
 
 Mostly useful for non-textual data.
 
-### BLOB
+#### BLOB
 
-### TEXT
+#### TEXT
 
 `BLOB` and `TEXT` are very similar to `VARBINARY` and `VARCHAR`:
 <http://stackoverflow.com/questions/2023481/mysql-large-varchar-vs-text>.
@@ -1589,7 +1603,7 @@ but there are limits to row size. Prefer `TEXT` when data can be arbitrarily lar
 The difference between `BLOB` and `TEXT` is the same as that between `BINARY` and `CHAR`:
 `BLOB` stores a string of bytes and has no encoding or collation.
 
-## NULL
+### NULL
 
 `NULL` can be inserted in place of any value that is not marked `NOT NULL`.
 
@@ -1625,7 +1639,7 @@ Output:
 
     1
 
-## Type conversion
+### Type conversion
 
 TODO what happens here:
 
@@ -1634,7 +1648,7 @@ TODO what happens here:
     SELECT * FROM t;
     DROP TABLE t;
 
-## Column constraints
+### Column constraints
 
 Besides the data type, each column may have one or more of several constraints.
 
@@ -1669,7 +1683,7 @@ There are two syntaxes for defining constraints:
         id INT UNIQUE,
         UNIQUE (id)
 
-### NOT NULL
+#### NOT NULL
 
 With `NOT NULL`, attempt to insert `NULL` given an error:
 
@@ -1682,7 +1696,7 @@ Output:
 
     ERROR 1048 (23000): Column 'a' cannot be null
 
-### DEFAULT
+#### DEFAULT
 
     CREATE TABLE t (a INT, b INT DEFAULT -1);
     INSERT INTO t VALUES (0, 1);
@@ -1716,7 +1730,7 @@ Default can be a function:
     SELECT * FROM t;
     DROP TABLE t;
 
-### CHECK
+#### CHECK
 
 Gets parsed, but is ignored since it is not implemented!
 
@@ -1736,7 +1750,7 @@ Enforces certain conditions on rows:
     SELECT * FROM t;
     DROP TABLE t;
 
-### AUTO_INCREMENT
+#### AUTO_INCREMENT
 
 The value of the column is always generated by MySQL by incrementing the last value.
 
@@ -1810,7 +1824,7 @@ Output:
     5    five
     6    six
 
-### ZEROFILL
+#### ZEROFILL
 
 Controls how numbers will be output.
 
@@ -1837,13 +1851,13 @@ minimum width (inluding point and decimals) and number of decimal cases:
     SELECT * FROM t;
     DROP TABLE t;
 
-## Get column description
+### Get column description
 
-### SHOW COLUMNS FROM
+#### SHOW COLUMNS FROM
 
-### DESCRIBE
+#### DESCRIBE
 
-### DESC
+#### DESC
 
 Same as `SHOW COLUMNS FROM` and `DESCRIBE`.
 
@@ -1873,7 +1887,7 @@ Output:
     |  1 | SIMPLE      | t     | index | NULL          | c1   | 7       | NULL |    1 | Using index |
     +----+-------------+-------+-------+---------------+------+---------+------+------+-------------+
 
-### SHOW FULL COLUMNS
+#### SHOW FULL COLUMNS
 
 Get more info than `DESC` including:
 
@@ -1907,9 +1921,9 @@ Sample output:
      ab      |                | select,insert,update,references |             |
     ---------+----------------+---------------------------------+-------------+
 
-## Character set
+### Character set
 
-## charset
+### charset
 
 The encoding to use for text columns such as `CHAR` columns.
 
@@ -1948,7 +1962,7 @@ Use default UTF8 charset on a table:
 View default charset for given DB/TABLE/COLUMN:
 <http://stackoverflow.com/questions/1049728/how-do-i-see-what-character-set-a-database-table-column-is-in-mysql>
 
-## collation
+### collation
 
 Collation determines how strings in a given charset
 are compared for equal, smaller, larger.
@@ -1957,14 +1971,14 @@ Like `CHARSET`, each column has its own collation,
 and defaults can be set for databases and tables.
 
 Examples: case sensitive, case insensitive,
-uppercase comes first (ABC...abc)
+uppercase comes first (`ABC...abc`)
 
 View all possible collations for each charset:
 
     SHOW COLLATION;
 
 
-## Column limitations
+### Column limitations
 
 Length.
 
@@ -1972,7 +1986,7 @@ There are length limitation on *row* size (sum of all columns).
 
 $2**16-1 = 8k-1$
 
-This means $8k-1/256 = 85% `CHAR(256)` fields are permitted.
+This means $8k-1/256 = 85$ `CHAR(256)` fields are permitted.
 
 TEXT field not stored on the table: each occupies up to 12 bytes on their row.
 
@@ -1980,11 +1994,11 @@ Copies data from old table to new table:
 
     INSERT INTO $newtable SELECT * FROM $oldtable;
 
-# Row operations
+## Row operations
 
 This section describes operations which act on the row level (most of them).
 
-## INSERT
+### INSERT
 
 Insert one or more rows into a table.
 
@@ -2013,7 +2027,7 @@ Specify order by row name:
 
     INSERT INTO t (v, i) VALUES ('cd', 2);
 
-### IGNORE
+#### IGNORE
 
     CREATE TABLE t (a INT UNIQUE, b INT);
     INSERT INTO t VALUES (0, 0), (1, 0);
@@ -2023,7 +2037,7 @@ Specify order by row name:
 
 Ignores constraint errors like `UNIQUE` double insertion.
 
-## update
+### update
 
 Modify the selected rows.
 
@@ -2055,7 +2069,7 @@ Output:
     2    5
     3    9
 
-## delete
+### delete
 
 Delete selected rows.
 
@@ -2082,7 +2096,7 @@ Output:
     1    1
     2    4
 
-## truncate
+### truncate
 
 Removes all entries from a table:
 
@@ -2092,7 +2106,7 @@ Similar to `DELETE FROM table_name`, but with some subtle differences,
 in particular a possible performance gain,
 since `TRUNCATE` actually drops and recreates the table.
 
-## select
+### select
 
 Choose certain table columns to take further actions on them.
 Returns chosen columns.
@@ -2141,7 +2155,7 @@ Output:
 
 Table names are omitted from the headers. To disambiguate use `AS`.
 
-### column that is a function of other columns
+#### column that is a function of other columns
 
 It is possible generate a selection that is a function of the row values:
 
@@ -2161,7 +2175,7 @@ Output:
     |   -1 |       2 |   -1 |
     +------+---------+------+
 
-### Single values
+#### Single values
 
 Besides selecting rows from columns,
 `SELECT` can also select single values or expressions.
@@ -2200,7 +2214,7 @@ Output:
     | 1 | 2 |
     +---+---+
 
-### WHERE
+#### WHERE
 
 Filter only certain rows.
 
@@ -2227,7 +2241,7 @@ It would of course be possible to get all the results
 and then filter them using a programming language,
 but the list of all results might be too long.
 
-### ORDER BY
+#### ORDER BY
 
 Order select output by one or more columns.
 
@@ -2272,7 +2286,7 @@ Almost all `SELECT` statements done in practice will have specified order.
 
 This query can be optimized by B-Tree indexes on MySQL and PostgreSQL.
 
-### LIMIT
+#### LIMIT
 
 Limit the number of outputs.
 
@@ -2291,7 +2305,7 @@ Output:
     0
     1
 
-### DISTINCT
+#### DISTINCT
 
 Only show each value of a column tuple once:
 
@@ -2347,7 +2361,7 @@ Output:
     SUM(t2.c0)
     1
 
-### Subqueries
+#### Subqueries
 
 Select can also work on query results output from other commands such as other `SELECT` or `UNION`.
 
@@ -2404,7 +2418,7 @@ Output:
     c0  c1
     3   9
 
-### AS
+#### AS
 
 Rename columns and subquery tables.
 
@@ -2498,7 +2512,7 @@ Output:
     i   j
     1   2
 
-### group by
+#### GROUP BY
 
 With aggregate functions, the aggregate is calculated once on each row of unique values:
 
@@ -2519,6 +2533,8 @@ However, do not rely on that and prefer `DISTINCT` instead,
 since `GROUP BY` is designed to work with aggregates,
 and may have subtly different semantics:
 <http://stackoverflow.com/questions/164319/is-there-any-difference-between-group-by-and-distinct>
+
+In particular, T-SQL raises an error if you try to do that.
 
     CREATE TABLE t (c0 CHAR(1), c1 INT);
     INSERT INTO t VALUES ('a', 1), ('a', 2), ('b', 3), ('b', 3);
@@ -2544,7 +2560,7 @@ Output:
     a    2
     b    3
 
-### having
+#### HAVING
 
 What `HAVING` does is similar to `WHERE`, but:
 
@@ -2573,7 +2589,7 @@ What `HAVING` does is similar to `WHERE`, but:
         c0   sum
         b    6
 
-## UNION
+### UNION
 
 Unite the resulting rows of two queries.
 
@@ -2719,11 +2735,11 @@ Output:
     ab
     cd
 
-## JOIN
+### JOIN
 
 Make a query result that uses rows from multiple tables.
 
-### INNER JOIN
+#### INNER JOIN
 
 Only rows present on both are considered (intersection).
 
@@ -2824,7 +2840,15 @@ Output:
     a                aab
     b                baa
 
-#### ON vs WHERE
+##### Operate before the JOIN
+
+E.g.: you want to `LIMIT` on the first table, not on the join.
+
+Seems to require a subquery:
+
+<http://stackoverflow.com/questions/7405432/can-you-apply-limit-on-mysql-before-left-join-another>
+
+##### ON vs WHERE
 
 Multiple `ON` conditions can be used instead of `WHERE` clauses.
 
@@ -2853,7 +2877,7 @@ Output:
     name    square
     zero    0
 
-### LEFT JOIN
+#### LEFT JOIN
 
 Consider all rows of the left (first) table, even if they have no match on the second table,
 
@@ -2889,7 +2913,7 @@ Output:
 
 Since `one` has no corresponding square, the square is `NULL`.
 
-### RIGHT JOIN
+#### RIGHT JOIN
 
     CREATE TABLE names (i INT, name VARCHAR(16));
     CREATE TABLE squares (i INT, square INT);
@@ -2909,7 +2933,7 @@ Output:
     NULL    4
     three   9
 
-### OUTER JOIN
+#### OUTER JOIN
 
 `{LEFT|RIGHT} OUTER JOIN` is the same as `LEFT JOIN`.
 
@@ -2917,16 +2941,16 @@ Output:
 but can be emulated with `UNION`:
 <http://stackoverflow.com/questions/7978663/mysql-full-join/7978665#7978665>.
 
-# Variables
+## Variables
 
-## SSV
+### SSV
 
-## Server system variables
+### Server system variables
 
 Variables that affect the operation of the server.
 
 
-### SHOW VARIABLES
+#### SHOW VARIABLES
 
 List variables and their values.
 
@@ -2948,14 +2972,14 @@ Filter SSVs by any method accepted by `WHERE`:
 
 This method is more general and verbose than using `LIKE`.
 
-### SET variables
+#### SET variables
 
 The `SET` command may be used to set the values of variables.
 
 Note that `SET` can also appear on other contexts such as `SET PASSWORD`,
 which have no relation to variables.
 
-### Variable types
+#### Variable types
 
 Table of all server system variables:
 <http://dev.mysql.com/doc/refman/4.1/en/server-system-variables.html>
@@ -3006,7 +3030,7 @@ List `mysqld` variables and values after reading the configuration files:
 
     mysqld --verbose --help
 
-## User defined variable
+### User defined variable
 
 User defined variables are variables defined by clients on the server,
 which last only until the end of the current session.
@@ -3085,12 +3109,12 @@ It is likely that you will only want to do this kind of operation
 if you are sure that there is only a single `SELECT` output row,
 either because of a `WHERE unique_col = val` or `LIMIT 1`.
 
-# Functions and operators
+## Functions and operators
 
 Be aware that the presence of `NULL` can create many exceptions
 on the expected behavior of functions.
 
-## Arithmetic operators
+### Arithmetic operators
 
 Basically C like:
 
@@ -3100,7 +3124,7 @@ Output:
 
     2
 
-## IN
+### IN
 
     SELECT 0 IN(0, 2);
     SELECT 1 IN(0, 2);
@@ -3112,7 +3136,7 @@ Output:
     0
     1
 
-## BETWEEN
+### BETWEEN
 
     SELECT 0 BETWEEN 0 AND 2;
     SELECT 1 BETWEEN 0 AND 2;
@@ -3126,7 +3150,7 @@ Output:
     1
     0
 
-## LIKE
+### LIKE
 
 Regex subset:
 
@@ -3151,7 +3175,7 @@ Output:
     0
     1
 
-## REGEXP
+### REGEXP
 
 Similar to `LIKE` but uses Perl-like regexps, so it is strictly more powerful.
 
@@ -3163,7 +3187,7 @@ Output:
     0
     1
 
-## REVERSE
+### REVERSE
 
     SELECT REVERSE('abcd');
 
@@ -3171,7 +3195,7 @@ Output:
 
     dcba
 
-## SOUNDEX
+### SOUNDEX
 
 <http://en.wikipedia.org/wiki/Soundex>
 
@@ -3185,7 +3209,7 @@ Output:
     R163
     R163
 
-## SOUNDS LIKE
+### SOUNDS LIKE
 
 Compare `SOUNDEX` of two strings:
 
@@ -3195,11 +3219,45 @@ Output:
 
     1
 
-## Aggregate function
+### GREATEST
+
+<http://dev.mysql.com/doc/refman/5.0/en/comparison-operators.html#function_greatest>
+
+    SELECT GREATEST(1, 2);
+
+Output:
+
+    2
+
+Not in T-SQL.
+
+### Control flow functions
+
+#### IF
+
+<http://dev.mysql.com/doc/refman/5.1/en/control-flow-functions.html#function_if>
+
+Note that this is a function: there is also an `IF` statement.
+
+Ternary if:
+
+    SELECT IF(TRUE, 0, 1);
+    SELECT IF(FALSE, 0, 1);
+
+Output:
+
+    0
+    1
+
+#### IFF
+
+`IF` function in T-SQL.
+
+### Aggregate function
 
 Aggregate functions are function that operate on entire (subquery) columns instead of individual values.
 
-### SUM
+#### SUM
 
 Sum of a column.
 
@@ -3258,7 +3316,7 @@ But I have seen many places say it could break up, like return NULL.
     SELECT SUM(c) FROM t;
     DROP TABLE t;
 
-### MAX
+#### MAX
 
 Maximum value of a column.
 
@@ -3273,7 +3331,7 @@ Output:
     3
     9
 
-### AVG
+#### AVG
 
 Average value of a column.
 
@@ -3288,7 +3346,7 @@ Output:
     2.0000
     4.6667
 
-### COUNT
+#### COUNT
 
 Return the number of non `NULL` entries of a column.
 
@@ -3313,7 +3371,7 @@ Output:
     COUNT(*)
     3
 
-### EXISTS
+#### EXISTS
 
 Takes a subquery and returns `TRUE` iff that subquery has at least one row,
 even if all its values are `NULL`.
@@ -3329,7 +3387,7 @@ Output:
     0
     1
 
-## VIEW
+### VIEW
 
 A view is simply pre prepared SQL query that is run whenever the view name is used.
 
@@ -3394,7 +3452,7 @@ Views cannot be deleted with `DROP TABLE`:
     DROP TABLE v;
     DROP VIEW v;
 
-# DELIMITER
+## DELIMITER
 
 By default the semicolon `;` is used to separate different commands.
 
@@ -3419,11 +3477,11 @@ when we want the delimiter sequence `;` to appear in the middle of the function.
 It is common practice to change the delimiter to `$$` in those cases,
 and restore it immediately after the function definition.
 
-# User defined functions
+## User defined functions
 
 TODO
 
-# Triggers
+## Triggers
 
 Triggers are like user defined functions that happen automatically before
 or after a row is `INSERTED`, `UPDATED` or `DELETED`.
@@ -3437,7 +3495,7 @@ Good tutorial on triggers:
 
 TODO
 
-# Database file format
+## Database file format
 
 MySQL allows to use the file format exemplified in `./tbl.txt` to represent tables.
 
@@ -3454,14 +3512,14 @@ Note how:
 - `\n`: and other escapes are interpreted as a newlines.
 - `\\`: must be escaped to be a newline.
 
-# EXPLAIN
+## EXPLAIN
 
 Show internal information on how the query will be carried out
 after it has been optimized.
 
 Useful to help the optimizer optimize queries.
 
-# ACID
+## ACID
 
 Four properties that describe how databases deal with messy situations like power-offs and concurrent access.
 
@@ -3469,7 +3527,7 @@ The following are ACID related MySQL features.
 
 <http://stackoverflow.com/questions/21584207/are-mysql-queries-atomic>
 
-## Transaction
+### Transaction
 
 Sometimes many queries are part of a single logical step,
 and if one of the queries fails,
@@ -3480,7 +3538,7 @@ Only certain engines support transactions.
 To find out which, use `SHOW ENGINES`;
 As of MySQL 5.5 the only engine that supports transactions is InnoDB.
 
-### autocommit
+#### autocommit
 
 The `autocommit` server system variable determines
 if each command is committed immediately or not.
@@ -3567,7 +3625,7 @@ Note that:
 
 TODO why does `autocommit` never change?
 
-## Locks
+### Locks
 
 Synchronization method when multiple session attempt to access a single table.
 
@@ -3635,7 +3693,7 @@ Output:
 
 and session one is active again.
 
-# Prepared statements
+## Prepared statements
 
 Before MySQL 5.0, `?` meant nothing to MySQL,
 only to several external interfaces such as PHP stdlib and web frameworks,
@@ -3657,7 +3715,7 @@ Output:
     hypotenuse
     5
 
-# Master slave replication
+## Master slave replication
 
 Backup the database to a second identical one as queries are being made.
 
@@ -3666,20 +3724,20 @@ while on in a sandboxed mode.
 
 - <https://www.digitalocean.com/community/tutorials/how-to-set-up-master-slave-replication-in-mysql>
 
-# Recipes
+## Recipes
 
-## Levenshtein distance
+### Levenshtein distance
 
 No built-in way.
 
 An implementation: <http://openquery.com.au/blog/levenshtein-mysql-stored-function>
 
-## Associations
+### Associations
 
 This section is not about MySQL itself,
 but common multi-table design patterns using MySQL.
 
-### Many to many
+#### Many to many
 
 Many to many get all pairs can be done in two ways,
 either with `WHERE` (delta style) or `JOIN` (ANSI style).
@@ -3714,7 +3772,7 @@ Output of both:
     m1	         p2
     m2	         p1
 
-### Many to one two levels deep
+#### Many to one two levels deep
 
 Many to one 2 levels deep all pairs:
 
@@ -3738,7 +3796,7 @@ Output:
     a                aab
     b                baa
 
-# Sources
+## Sources
 
 -   <http://dev.mysql.com/doc/>
 
