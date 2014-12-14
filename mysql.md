@@ -3,7 +3,7 @@ title: MySQL
 permalink: mysql/
 ---
 
-<ol data-toc></ol>
+{{ site.toc }}
 
 ## Introduction
 
@@ -548,7 +548,7 @@ For example, `INSERT` can be used to modify users and permissions on the `mysql`
 but it does take effect in the running MySQL instance unless a `FLUSH PRIVILEGES` is done,
 which makes the server load this new information and put it into effect.
 
-## Database
+## DATABASE
 
 List all databases:
 
@@ -685,7 +685,8 @@ The output should contain neither `t0` nor `t1`.
 #### SHOW CREATE TABLE
 
 Shows the exact command needed to to create a table,
-including options that depend on defaults and were not explicitly given at table creation.
+including options that depend on defaults
+and were not explicitly given at table creation time.
 
     CREATE TABLE t (
         c0 INT(2) NOT NULL AUTO_INCREMENT,
@@ -771,7 +772,8 @@ An index is a technique to speed up searches at the cost of:
 - more expensive column updates
 - larger memory usage
 
-Therefore indexes are most useful when there will be more searches than modifications on the data.
+Therefore indexes are most useful when there will be
+more searches than modifications on the data.
 
 Indexes can be created with the following keywords:
 
@@ -780,7 +782,8 @@ Indexes can be created with the following keywords:
 - `PRIMARY KEY`
 - `FULLTEXT`
 
-Searches without indexes take $log(n)$ worst case since they mean looking up every row of the table.
+Searches without indexes take $log(n)$ worst case
+since they mean looking up every row of the table.
 
 Indexed searches can be done either in $O(log(n))$ or $O(1)$
 since they are implemented as B-trees or as a hash maps of values to positions.
@@ -1263,7 +1266,7 @@ If is possible to retrieve the table type via `SHOW CREATE TABLE`;
     SHOW CREATE TABLE t;
     DROP TABLE t;
 
-### Temporary table
+### TEMPORARY TABLE
 
 A table that only exists per session and expires at the end of a session.
 
@@ -1615,6 +1618,10 @@ It represents absence of data.
     SELECT * FROM t;
     DROP TABLE t;
 
+#### NULL and operators
+
+<http://dev.mysql.com/doc/refman/5.0/en/working-with-null.html>
+
 Some functions and `NULL`:
 
     SELECT NULL + 0;
@@ -1623,7 +1630,16 @@ Output:
 
     NULL
 
-Equality might not give what you want:
+##### IS NULL
+
+##### IS NOT NULL
+
+<http://dev.mysql.com/doc/refman/5.0/en/comparison-operators.html#operator_is-null>
+
+<http://dev.mysql.com/doc/refman/5.0/en/comparison-operators.html#operator_is-not-null>
+
+You should not use arithmetic comparison operators with `NULL`
+<http://dev.mysql.com/doc/refman/5.0/en/working-with-null.html>
 
     SELECT NULL = NULL;
 
@@ -1631,13 +1647,15 @@ Output:
 
     NULL
 
-Use the `IS NULL` operator instead:
+Use the `IS NULL` and `IS NOT NULL` operators instead:
 
     SELECT NULL IS NULL;
+    SELECT NULL IS NOT NULL;
 
 Output:
 
     1
+    0
 
 ### Type conversion
 
@@ -1666,10 +1684,10 @@ There are two syntaxes for defining constraints:
 
     Disadvantage:
 
-    - it is not possible to define a constraint name.
+    -   it is not possible to define a constraint name.
         This name is needed to remove a constraint afterwards.
 
-    - less portable. TODO check.
+    -   less portable. TODO check.
 
 -   on a separate line.
 
@@ -1844,7 +1862,7 @@ The `(4)` mens that the minimum output width is `4`.
 The difference of using it can only be noticed if `ZEROFILL` is set for the column.
 
 Floating point types have two display parameters:
-minimum width (inluding point and decimals) and number of decimal cases:
+minimum width (including point and decimals) and number of decimal cases:
 
     CREATE TABLE t (f FLOAT, f0 FLOAT(10, 2) ZEROFILL);
     INSERT INTO t VALUES (12.3456, 12.3456);
@@ -1923,7 +1941,7 @@ Sample output:
 
 ### Character set
 
-### charset
+### CHARSET
 
 The encoding to use for text columns such as `CHAR` columns.
 
@@ -1962,7 +1980,7 @@ Use default UTF8 charset on a table:
 View default charset for given DB/TABLE/COLUMN:
 <http://stackoverflow.com/questions/1049728/how-do-i-see-what-character-set-a-database-table-column-is-in-mysql>
 
-### collation
+### COLLATION
 
 Collation determines how strings in a given charset
 are compared for equal, smaller, larger.
@@ -2037,7 +2055,7 @@ Specify order by row name:
 
 Ignores constraint errors like `UNIQUE` double insertion.
 
-### update
+### UPDATE
 
 Modify the selected rows.
 
@@ -2069,7 +2087,7 @@ Output:
     2    5
     3    9
 
-### delete
+### DELETE
 
 Delete selected rows.
 
@@ -2096,7 +2114,7 @@ Output:
     1    1
     2    4
 
-### truncate
+### TRUNCATE
 
 Removes all entries from a table:
 
@@ -2106,7 +2124,7 @@ Similar to `DELETE FROM table_name`, but with some subtle differences,
 in particular a possible performance gain,
 since `TRUNCATE` actually drops and recreates the table.
 
-### select
+### SELECT
 
 Choose certain table columns to take further actions on them.
 Returns chosen columns.
@@ -2123,39 +2141,24 @@ Show entire table `table`:
 
     SELECT * FROM table;
 
-Multiple tables:
+#### Rename table
+
+It is possible to rename tables on the select:
 
     CREATE TABLE t  (i INT);
-    CREATE TABLE t2 (j INT);
-    INSERT INTO t VALUES  (1), (3);
-    INSERT INTO t2 VALUES (2), (4);
-    SELECT * FROM t, t2 ORDER BY t.i, t2.j;
-    DROP TABLE t, t2;
-
-Output is the Cartesian product of the two tables:
-
-    i   j
-    1   2
-    1   4
-    3   2
-    3   4
-
-Must include all the table names to be used, or error:
-
-    CREATE TABLE t  (i INT);
-    CREATE TABLE t2 (j INT);
-    INSERT INTO t VALUES  (1), (3);
-    INSERT INTO t2 VALUES (2), (4);
-    SELECT * FROM t ORDER BY t.i, t2.j;
-    DROP TABLE t, t2;
+    INSERT INTO t VALUES  (1), (2);
+    SELECT new_name.i FROM t new_name ORDER BY new_name.i;
+    DROP TABLE t;
 
 Output:
 
-    ERROR 1054 (42S22): Unknown column 't2.j' in 'order clause'
+    i
+    1
+    2
 
-Table names are omitted from the headers. To disambiguate use `AS`.
+This can be useful to disambiguate when joining a table with itself.
 
-#### column that is a function of other columns
+#### Column that is a function of other columns
 
 It is possible generate a selection that is a function of the row values:
 
@@ -2519,6 +2522,7 @@ With aggregate functions, the aggregate is calculated once on each row of unique
     CREATE TABLE t (c0 CHAR(1), c1 INT);
     INSERT INTO t VALUES ('a', 1), ('a', 2), ('b', 3), ('b', 3);
     SELECT c0, SUM(c1) FROM t GROUP BY c0 ORDER BY c0;
+    SELECT c0, COUNT(c1) FROM t GROUP BY c0 ORDER BY c0;
     DROP TABLE t;
 
 Output:
@@ -2526,6 +2530,10 @@ Output:
     c0   SUM(c1)
     a    3
     b    6
+
+    c0   COUNT(c1)
+    a    2
+    b    2
 
 Without an aggregate function, works like `DISTINCT`.
 
@@ -2913,6 +2921,43 @@ Output:
 
 Since `one` has no corresponding square, the square is `NULL`.
 
+##### LEFT JOIN on SELECT
+
+This syntax is being generally deprecated: use `LET JOIN` instead:
+<http://stackoverflow.com/questions/894490/sql-left-join-vs-multiple-tables-on-from-line>
+
+Multiple tables:
+
+    CREATE TABLE t  (i INT);
+    CREATE TABLE t2 (j INT);
+    INSERT INTO t VALUES  (1), (3);
+    INSERT INTO t2 VALUES (2), (4);
+    SELECT * FROM t, t2 ORDER BY t.i, t2.j;
+    DROP TABLE t, t2;
+
+Output is the Cartesian product of the two tables:
+
+    i   j
+    1   2
+    1   4
+    3   2
+    3   4
+
+Must include all the table names to be used, or error:
+
+    CREATE TABLE t  (i INT);
+    CREATE TABLE t2 (j INT);
+    INSERT INTO t VALUES  (1), (3);
+    INSERT INTO t2 VALUES (2), (4);
+    SELECT * FROM t ORDER BY t.i, t2.j;
+    DROP TABLE t, t2;
+
+Output:
+
+    ERROR 1054 (42S22): Unknown column 't2.j' in 'order clause'
+
+Table names are omitted from the headers. To disambiguate use `AS`.
+
 #### RIGHT JOIN
 
     CREATE TABLE names (i INT, name VARCHAR(16));
@@ -3151,6 +3196,8 @@ Output:
     0
 
 ### LIKE
+
+<http://dev.mysql.com/doc/refman/5.0/en/string-comparison-functions.html#operator_like>
 
 Regex subset:
 
@@ -3795,6 +3842,12 @@ Output:
     a                aaa
     a                aab
     b                baa
+
+## Protocol
+
+<http://dev.mysql.com/doc/internals/en/client-server-protocol.html>
+
+TODO. Possible from Netcat? :)
 
 ## Sources
 
