@@ -1,5 +1,5 @@
 ---
-title: Redis
+title: Redis Cheat
 permalink: redis/
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: PostgreSQL
+title: PostgreSQL Cheat
 permalink: postgresql/
 ---
 

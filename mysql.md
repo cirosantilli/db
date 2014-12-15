@@ -1,5 +1,5 @@
 ---
-title: MySQL
+title: MySQL Cheat
 permalink: mysql/
 ---
 

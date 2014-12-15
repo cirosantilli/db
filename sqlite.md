@@ -1,5 +1,5 @@
 ---
-title: SQLite
+title: SQLite Cheat
 permalink: sqlite/
 ---
 
