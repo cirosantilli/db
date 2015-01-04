@@ -3,9 +3,9 @@ title: PostgreSQL Cheat
 permalink: postgresql/
 ---
 
-This tutorial supposes you know MySQL and teaches by analogy to it.
+Open source.
 
-CLI executable name: `psql`
+Default port: 5432
 
 ## Get started
 
@@ -97,3 +97,15 @@ Run:
     pgadmin3
 
 To view data, select the table, right click then View Data
+
+## Internals
+
+Source code:
+
+    git clone git://git.postgresql.org/git/postgresql.git
+
+<http://www.postgresql.org/docs/9.3/static/git.html>
+
+GitHub mirror: <https://github.com/postgres/postgres>
+
+Coded in C.

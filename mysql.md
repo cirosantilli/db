@@ -5,11 +5,35 @@ permalink: mysql/
 
 {{ site.toc }}
 
-## Introduction
+Open source.
 
-MySQL is an open source data base management system (DBMS).
+As of 2013, MySQL was the most popular server-based DBMS.
 
-As of 2013, MySQL is the most popular server-based DBMS.
+## SQL
+
+## Standards
+
+<http://en.wikipedia.org/wiki/SQL>
+
+The SQL standard is a non-free ANSI/ISO standard, and it is really hard to find good drafts.
+
+### Implementations
+
+Large comparison table between implementations: <http://troels.arvin.dk/db/rdbms/>
+
+MySQL is generally compatible with the SQL standard for DBMS,
+but it is well known that there are many differences between how different DBMS implement SQL,
+so it is not safe to assume that using SQL only will lead to very high portability.
+
+Other important implementations of SQL-like languages are:
+
+- PostgreSQL
+- SQLite
+- Oracle
+- Microsoft
+- DB2
+
+## Server
 
 MySQL runs on a server. The server executable is often called `mysqld`,
 which stands for MySQL daemon.
@@ -25,36 +49,6 @@ As such, it does not allow for basic features of general languages such as condi
 
 The server holds session state about the connection. For example, a `SHOW WARNINGS` query
 will only show warnings if the last query produced a warning.
-
-## SQL
-
-## Standards
-
-<http://en.wikipedia.org/wiki/SQL>
-
-The SQL standard is a non-free ANSI/ISO standard, and it is really hard to find good drafts.
-
-Large comparison table between implementations: <http://troels.arvin.dk/db/rdbms/>
-
-MySQL is generally compatible with the SQL standard for DBMS,
-but it is well known that there are many differences between how different DBMS implement SQL,
-so it is not safe to assume that using SQL only will lead to very high portability.
-
-Other important implementations of SQL-like languages are:
-
--   PostgreSQL. Also open source.
-
--   SQLite. No server, files only. Simpler,
-    but potentially less efficient for large servers.
-
--   T-SQL <http://en.wikipedia.org/wiki/Transact-SQL>
-
-    Microsoft.
-
-    Primary language for <http://en.wikipedia.org/wiki/Microsoft_SQL_Server>,
-    so that the language is often refered to as "SQL Server".
-
-## MySQL server
 
 Configuration file:
 
@@ -3848,6 +3842,16 @@ Output:
 <http://dev.mysql.com/doc/internals/en/client-server-protocol.html>
 
 TODO. Possible from Netcat? :)
+
+## Internals
+
+<http://dev.mysql.com/doc/internals/en/index.html>
+
+Source:
+
+    git clone https://github.com/mysql/mysql-server.git
+
+Coded half in C++, half in C.
 
 ## Sources
 
