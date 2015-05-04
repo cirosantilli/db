@@ -113,13 +113,13 @@ It is possible to customize what should be done in each case via command line op
 
 The following options are relevant:
 
--  `-s`: silent. Does not print table borders. Separates entries with tabs and rows with newlines.
+`-s`: silent. Does not print table borders. Separates entries with tabs and rows with newlines.
 
-        mysql -se "SHOW DATABSES;"
+    mysql -se "SHOW DATABSES;"
 
 `-N`: omit table headers containing column names.
 
-        mysql -Ne "SHOW DATABSES;"
+    mysql -Ne "SHOW DATABSES;"
 
 `-r`: raw. Controls if the special characters `\0`, `\t` `\n` should be represented as backslash escapes or not.
 
@@ -248,11 +248,10 @@ This type of version conditional comments serve a similar purpose to C `__STDC_V
 
 MySQL organizes information hierarchically as:
 
--   *databases* at the top-level.
--   each database contains tables.
--   each table contains columns.
--   each column holds a single type of information:
-    numbers, characters, text ext.
+- *databases* at the top-level
+- each database contains tables
+- each table contains columns
+- each column holds a single type of information: numbers, characters, text, etc.
 
 ## Command case
 
@@ -284,8 +283,7 @@ There are three types of quotations in MySQL:
 
 -   single quotes: `'asdf'`. Represents literal strings.
 
--   double quotes: `"asdf"`. Same as single quotes.
-    Single quotes are more common across DBMSs, so prefer single quotes.
+-   double quotes: `"asdf"`. Same as single quotes. Single quotes are more common across DBMSs, so prefer single quotes.
 
 ## Error logging
 
@@ -410,8 +408,7 @@ As soon as you install MySQL, certain databases already exist:
 - `mysql`
 - `information_schema`
 
-Those databases are special as they contain metadata
-used by MySQL such as user information, database metadata, etc.
+Those databases are special as they contain metadata used by MySQL such as user information, database metadata, etc.
 
 Be very careful when editing those databases directly.
 
@@ -419,11 +416,9 @@ Be very careful when editing those databases directly.
 
 MySQL has the concept of users and permissions analogous to POSIX users and permissions.
 
-Each user/host pair has certain privileges
-such as view, edit, delete databases, tables and entries.
+Each user/host pair has certain privileges such as view, edit, delete databases, tables and entries.
 
-Those permissions may apply either to specific table/database
-or to the entire server (global permissions).
+Those permissions may apply either to specific table/database or to the entire server (global permissions).
 
 By default, a superuser called root is created during server installation.
 
@@ -443,8 +438,7 @@ Create a user on all hosts:
 
     CREATE USER 'newuser'@'%' IDENTIFIED BY 'password';
 
-Does *not* include UNIX domain connections such is the case for localhost,
-but does include all TCP/UDP connections.
+Does *not* include UNIX domain connections such is the case for localhost, but does include all TCP/UDP connections.
 
 Get current user host pair:
 
@@ -495,21 +489,15 @@ Change password for an existing user:
     USE MYSQL
     SET PASSWORD FOR 'user-name'@'hostname-name' = PASSWORD('new-password');
 
-Some sources mention that `FLUSH PRIVILEGES` privileges is needed after `SET PASSWORD`,
-but the 5.0 documentation says that this should be necessary
-after a `GRANT`, `REVOKE`, or `SET PASSWORD`,
-and, only if `INSERT`, `UPDATE` or `DELETE` are used directly.
+Some sources mention that `FLUSH PRIVILEGES` privileges is needed after `SET PASSWORD`, but the 5.0 documentation says that this should be necessary after a `GRANT`, `REVOKE`, or `SET PASSWORD`, and, only if `INSERT`, `UPDATE` or `DELETE` are used directly.
 
 Also consider using the `mysqladmin` utility for this task.
 
 ## FLUSH
 
-Flush tells MySQL to load to the `mysqld` memory metadata
-that has been modified in the control table `mysql`, making it take effect.
+Flush tells MySQL to load to the `mysqld` memory metadata that has been modified in the control table `mysql`, making it take effect.
 
-For example, `INSERT` can be used to modify users and permissions on the `mysql` control database,
-but it does take effect in the running MySQL instance unless a `FLUSH PRIVILEGES` is done,
-which makes the server load this new information and put it into effect.
+For example, `INSERT` can be used to modify users and permissions on the `mysql` control database, but it does take effect in the running MySQL instance unless a `FLUSH PRIVILEGES` is done, which makes the server load this new information and put it into effect.
 
 ## DATABASE
 
@@ -590,8 +578,7 @@ Create a new table with the given columns:
 
 creates a table with 2 columns.
 
-Table options come after the closing `)`. The `=` sign is optional,
-so the following would also do the same:
+Table options come after the closing `)`. The `=` sign is optional, so the following would also do the same:
 
     CREATE TABLE table_name(
         column_name0 INT,
@@ -599,8 +586,7 @@ so the following would also do the same:
     ) CHARSET 'utf8' ENGINE 'InnoDB' COMMENT 'table comment';
     DROP TABLE table_name;
 
-It is recommended however that the `=` sign be used
-to increase readability by making it clearer which key has which value.
+It is recommended however that the `=` sign be used to increase readability by making it clearer which key has which value.
 
 It is not possible to create a table with no columns:
 
@@ -608,8 +594,7 @@ It is not possible to create a table with no columns:
 
 produces an error.
 
-If a table already exists, creating it again gives an error.
-To avoid such errors, it is possible to use the `IF NOT EXISTS` option:
+If a table already exists, creating it again gives an error. To avoid such errors, it is possible to use the `IF NOT EXISTS` option:
 
     CREATE TABLE t( c0 INT );
     CREATE TABLE IF NOT EXISTS t( c0 INT );
@@ -647,9 +632,7 @@ The output should contain neither `t0` nor `t1`.
 
 #### SHOW CREATE TABLE
 
-Shows the exact command needed to to create a table,
-including options that depend on defaults
-and were not explicitly given at table creation time.
+Shows the exact command needed to to create a table, including options that depend on defaults and were not explicitly given at table creation time.
 
     CREATE TABLE t (
         c0 INT(2) NOT NULL AUTO_INCREMENT,
@@ -720,9 +703,7 @@ The output should not present the unique constraint anymore.
 
 It is only possible to drop a constraint if you know its name.
 
-If you do not know its name,
-it is necessary to retrieve it manually with `SHOW CREATE TABLE`
-or to do it automatically one must tamper with `information_schema`.
+If you do not know its name, it is necessary to retrieve it manually with `SHOW CREATE TABLE` or to do it automatically one must tamper with `information_schema`.
 
 A `FOREIGN KEY` constraint can only be removed via `DROP FOREIGN KEY`, not `DROP CONSTRAINT`.
 
@@ -735,8 +716,7 @@ An index is a technique to speed up searches at the cost of:
 - more expensive column updates
 - larger memory usage
 
-Therefore indexes are most useful when there will be
-more searches than modifications on the data.
+Therefore indexes are most useful when there will be more searches than modifications on the data.
 
 Indexes can be created with the following keywords:
 
@@ -745,38 +725,23 @@ Indexes can be created with the following keywords:
 - `PRIMARY KEY`
 - `FULLTEXT`
 
-Searches without indexes take $log(n)$ worst case
-since they mean looking up every row of the table.
+Searches without indexes take $log(n)$ worst case since they mean looking up every row of the table.
 
-Indexed searches can be done either in $O(log(n))$ or $O(1)$
-since they are implemented as B-trees or as a hash maps of values to positions.
+Indexed searches can be done either in $O(log(n))$ or $O(1)$ since they are implemented as B-trees or as a hash maps of values to positions.
 
-Each index speeds up searches on the row or the rows it covers.
-A single table may have more than one index for different columns.
+Each index speeds up searches on the row or the rows it covers. A single table may have more than one index for different columns.
 
-Every data type can be used on indexes,
-but there are limits on how many bytes can be used for an index,
-so potentially huge columns like `TEXT` and `BLOB` types
-require that the number of bytes to be used be specified.
+Every data type can be used on indexes, but there are limits on how many bytes can be used for an index, so potentially huge columns like `TEXT` and `BLOB` types require that the number of bytes to be used be specified.
 
 #### USING
 
 #### Index data structure
 
-As of 5.5, the only engine that supports hash is `MEMORY`.
-Index type can be specified via `USING {BTREE|HASH}`.
-`USING` is ignored in case that the engine does not support the index type.
+As of 5.5, the only engine that supports hash is `MEMORY`. Index type can be specified via `USING {BTREE|HASH}`. `USING` is ignored in case that the engine does not support the index type.
 
-Because of the nature of the indexes, a hash index is only useful for `=` comparison,
-while a `BTREE` can also be used for `<`, `>`, `LIKE` and `ORDER BY`.
+Because of the nature of the indexes, a hash index is only useful for `=` comparison, while a `BTREE` can also be used for `<`, `>`, `LIKE` and `ORDER BY`.
 
-`BTREE` indexes can also be specified either `ASC` or `DESC` order.
-While it does not make any difference for a single column, PostgreSQL's manual
-explains why this exists:
-<http://www.postgresql.org/docs/8.3/static/indexes-ordering.html>
-it does make a difference for a multi column index.
-MySQL currently ignores this parameter, and is unable to optimize
-do mixed ordering queries like:
+`BTREE` indexes can also be specified either `ASC` or `DESC` order. While it does not make any difference for a single column, PostgreSQL's manual explains why this exists: <http://www.postgresql.org/docs/8.3/static/indexes-ordering.html> it does make a difference for a multi column index. MySQL currently ignores this parameter, and is unable to optimize do mixed ordering queries like:
 
     SELECT col0 FROM table0 ORDER BY
 
@@ -822,16 +787,13 @@ Output:
 
 Note that there were no errors.
 
-It is also common to make the key `NOT NULL`,
-which helps MySQL do certain optimizations.
+It is also common to make the key `NOT NULL`, which helps MySQL do certain optimizations.
 
 ##### Multi-column index
 
 TODO check all of this section.
 
-An index can span multiple columns `c0` and `c1`,
-in which case it will be very efficiently
-used for `WHERE c0 AND c1` queries, but not on `WHERE c0` queries alone:
+An index can span multiple columns `c0` and `c1`, in which case it will be very efficiently used for `WHERE c0 AND c1` queries, but not on `WHERE c0` queries alone:
 
     CREATE TABLE t (
         id INT,
@@ -865,10 +827,7 @@ Output (selection):
 
 TODO: understand `EXPLAIN` output in relation to indexes.
 
-Two separate indexes on individual columns `c0` and `c1`
-can be both used to speed up a `WHERE c0 c1`
-query by the MySQL optimizer, but this is a complex optimization (think in terms of the B-tree)
-and a multi-column `INDEX` is generally faster.
+Two separate indexes on individual columns `c0` and `c1` can be both used to speed up a `WHERE c0 c1` query by the MySQL optimizer, but this is a complex optimization (think in terms of the B-tree) and a multi-column `INDEX` is generally faster.
 
 <http://dba.stackexchange.com/questions/24489/how-are-multiple-indexes-used-in-a-query-by-mysql>
 
@@ -889,11 +848,9 @@ and a multi-column `INDEX` is generally faster.
 
 #### UNIQUE
 
-Enforces uniqueness of each value of a row, except for `NULL`
-which may appear several times.
+Enforces uniqueness of each value of a row, except for `NULL` which may appear several times.
 
-This can only be maintained efficiently if an index is created,
-so `UNIQUE` also creates an index, thus implying `INDEX`:
+This can only be maintained efficiently if an index is created, so `UNIQUE` also creates an index, thus implying `INDEX`:
 
     CREATE TABLE t (a INT UNIQUE, b INT);
     INSERT INTO t VALUES (0, 0), (1, 0);
@@ -954,8 +911,7 @@ Example:
 
 Constraint that states that a row points to `PRIMARY KEY` of another table.
 
-As of 5.5, this feature is not available on most engine types,
-but available on the default InnoDB.
+As of 5.5, this feature is not available on most engine types, but available on the default InnoDB.
 
     CREATE TABLE authors (
         id INT PRIMARY KEY AUTO_INCREMENT,
@@ -985,9 +941,7 @@ Pointing to an `UNIQUE` row is also possible:
 
 but is not usually a good design choice.
 
-Both tables should use the same engine. If this is not the case,
-the command may not generate any errors,
-but this is not a good idea since different engines treat foreign keys differently.
+Both tables should use the same engine. If this is not the case, the command may not generate any errors, but this is not a good idea since different engines treat foreign keys differently.
 
     CREATE TABLE authors (
         id INT PRIMARY KEY,
@@ -1003,8 +957,7 @@ but this is not a good idea since different engines treat foreign keys different
 
 It is not possible to drop a table if another table has foreign keys to it:
 
-Foreign key names must be unique across all tables of all databases
-<http://stackoverflow.com/questions/13338198/mysql-index-name-and-foreign-key-name-must-be-different-for-different-tables>:
+Foreign key names must be unique across all tables of all databases <http://stackoverflow.com/questions/13338198/mysql-index-name-and-foreign-key-name-must-be-different-for-different-tables>:
 
     CREATE TABLE authors (
         id INT PRIMARY KEY AUTO_INCREMENT,
@@ -1025,8 +978,7 @@ Foreign key names must be unique across all tables of all databases
     );
     DROP TABLE books, authors;
 
-The only way to work around this is to either first drop the `FOREIGN KEY` constraint,
-or the table with the foreign key.
+The only way to work around this is to either first drop the `FOREIGN KEY` constraint, or the table with the foreign key.
 
 Drop the table:
 
@@ -1062,15 +1014,11 @@ Remove the constraint:
     DROP TABLE authors;
     DROP TABLE books;
 
-Engines like InnoDB prevent by default prevent update or delete
-of primary keys on tables which have foreign keys pointing in.
-If this is allows, and what should happen is determined
-by the `FOREIGN KEY` `ON DELETE` and `ON UPDATE` options.
+Engines like InnoDB prevent by default prevent update or delete of primary keys on tables which have foreign keys pointing in. If this is allows, and what should happen is determined by the `FOREIGN KEY` `ON DELETE` and `ON UPDATE` options.
 
 For `InnoDB` as of 5.5 the following options are supported:
 
--   `NO ACTION` and `RESTRICT` do the same thing and are the default option:
-    deletion attempt leads to an error.
+-   `NO ACTION` and `RESTRICT` do the same thing and are the default option: deletion attempt leads to an error.
 
 -   `CASCADE`: `DELETE` of referenced author also deletes all books by the author.
 
@@ -2455,9 +2403,48 @@ Output:
     a    2
     b    2
 
-Without an aggregate function, works like `DISTINCT`.
+##### GROUP BY and JOIN
 
-However, do not rely on that and prefer `DISTINCT` instead, since `GROUP BY` is designed to work with aggregates, and may have subtly different semantics: <http://stackoverflow.com/questions/164319/is-there-any-difference-between-group-by-and-distinct>
+    CREATE TABLE users (id INT PRIMARY KEY, age INT);
+    CREATE TABLE posts (
+        id INT PRIMARY KEY,
+        userid INT,
+        FOREIGN KEY (userid) REFERENCES users(id)
+    );
+    INSERT INTO users VALUES (1, 20), (2, 20);
+    INSERT INTO posts VALUES (1, 1), (2, 1), (3, 2);
+    # How many posts each user has. Also show user age.
+    SELECT
+        users.id,
+        users.age,
+        COUNT(*)
+    FROM
+        users
+    INNER JOIN
+        posts
+    ON
+        users.id = posts.userid
+    GROUP BY
+        users.id
+    ;
+    DROP TABLE posts;
+    DROP TABLE users;
+
+Output:
+
+    id  age  COUNT(*)
+    1   20   2
+    2   20   1
+
+T-SQL forces you to put `users.age` and any non-aggregate column under `GROUP BY` as well like:
+
+    GROUP BY
+        users.id,
+        users.age,
+
+##### GROUP BY without aggregate
+
+Without an aggregate function, works like `DISTINCT`. But don't rely on that and prefer `DISTINCT` instead, since `GROUP BY` is designed to work with aggregates, and may have subtly different semantics: <http://stackoverflow.com/questions/164319/is-there-any-difference-between-group-by-and-distinct>
 
 In particular, T-SQL raises an error if you try to do that.
 
@@ -2977,6 +2964,8 @@ List `mysqld` variables and values after reading the configuration files:
 
     mysqld --verbose --help
 
+### User variables
+
 ### User defined variable
 
 User defined variables are variables defined by clients on the server, which last only until the end of the current session.
@@ -3005,14 +2994,18 @@ Initialize user variables inside a `SELECT`:
     SET @v1 := 1, @v2 = 2;
     SELECT @v1 := 2, @v2 = 2;
     SELECT @v1, @v2;
+    SELECT @v1 := 1, @v1 + 1;
 
 Output:
 
     @v1 := 2    @v2 = 2
-    2    1
+    2           1
 
-    @v1    @v2
+    @v1  @v2
     2    2
+
+    @v1 := 1  @v1 + 1
+    1         2
 
 Note how `SELECT @v1 := 2, @v2 = 2;` only changes the value of `@v1`, while all that the second part of the statement does is to compare `@v2` to `2`.
 
@@ -3057,11 +3050,21 @@ Be aware that the presence of `NULL` can create many exceptions on the expected 
 
 Basically C like:
 
-    SELECT 1 + 1
+    SELECT 1 + 1;
 
 Output:
 
     2
+
+In MySQL, integer division generates floats:
+
+    SELECT 1 / 2;
+
+Output:
+
+    0.5
+
+But this is not true for T-SQL, which requires a `CAST`. `CAST` exists in MySQL but seems to different operations.
 
 ### IN
 
@@ -3671,9 +3674,9 @@ It seems that the (ANSI) style is preferred for clarity, and both are usually as
 Output of both:
 
     medics.name  patients.name
-    m1	         p1
-    m1	         p2
-    m2	         p1
+    m1           p1
+    m1           p2
+    m2           p1
 
 #### Many to one two levels deep
 
