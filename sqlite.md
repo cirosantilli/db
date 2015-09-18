@@ -5,8 +5,7 @@ permalink: sqlite/
 
 File based.
 
-Not intended for production servers, but can useful for testing
-and use in user applications.
+Not intended for production servers, but can useful for testing and use in user applications.
 
 ## Internals
 
@@ -16,18 +15,15 @@ Written in C.
 
 <http://www.sqlite.org/download.html>
 
-Version controlled with Fossil... which uses SQLite on the backend,
-and was written by the same person who wrote SQLite.
+Version controlled with Fossil... which uses SQLite on the backend, and was written by the same person who wrote SQLite.
 
-And on top of that, you need Fossil to generate some build files...
-for the Git repository this can be achieved with:
+And on top of that, you need Fossil to generate some build files... for the Git repository this can be achieved with:
 
     git log -1 --format=format:%ci%n | sed -e 's/ [-+].*$//;s/ /T/;s/^/D /' > manifest
     echo $(git log -1 --format=format:%H) > manifest.uuid
     make
 
-So here is the most starred GitHub unofficial mirror:
-<https://github.com/mackyle/sqlite>
+So here is the most starred GitHub unofficial mirror: <https://github.com/mackyle/sqlite>
 
 Or you can create some courage and deal with Fossil:
 

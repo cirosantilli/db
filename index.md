@@ -15,6 +15,7 @@ Less useful tutorials:
 
 - [Redis](redis)
 - [SQLite](sqlite)
+- [Theory](theory)
 
 ## Sources
 

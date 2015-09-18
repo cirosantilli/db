@@ -5,6 +5,8 @@ permalink: mysql/
 
 {{ site.toc }}
 
+1. [GROUP BY](group-by.md)
+
 Open source.
 
 As of 2013, MySQL was the most popular server-based DBMS.
@@ -1288,11 +1290,9 @@ since `32767 == 0x8FFF` is the largest possible value.
 
 Represents decimal fractions precisely unlike floats.
 
-For example, 0.3 cannot be represented precisely with floating point numbers
-since its binary representation is infinite.
+For example, 0.3 cannot be represented precisely with floating point numbers since its binary representation is infinite.
 
-This is important for example in financial computations,
-where errors can add up and make a big difference on the resulting output.
+This is important for example in financial computations, where errors can add up and make a big difference on the resulting output.
 
 #### BIT
 
@@ -2212,7 +2212,7 @@ If you want to do that, consider one of the following solutions
 
 - the `DISTICT` form of the aggregate function `SUM(DISTINCT )`,
 - subquery
-- `GROUP BY`.
+- `GROUP BY`. Can be used to emulate `DISTINCT`, the only problem is that you have to type all columns twice.
 
 Examples:
 
@@ -2383,94 +2383,13 @@ Output:
     i   j
     1   2
 
-#### GROUP BY
+##### Reuse AS
 
-With aggregate functions, the aggregate is calculated once on each row of unique values:
+Goal:
 
-    CREATE TABLE t (c0 CHAR(1), c1 INT);
-    INSERT INTO t VALUES ('a', 1), ('a', 2), ('b', 3), ('b', 3);
-    SELECT c0, SUM(c1) FROM t GROUP BY c0 ORDER BY c0;
-    SELECT c0, COUNT(c1) FROM t GROUP BY c0 ORDER BY c0;
-    DROP TABLE t;
+    SELECT 1 AS one, one AS two;
 
-Output:
-
-    c0   SUM(c1)
-    a    3
-    b    6
-
-    c0   COUNT(c1)
-    a    2
-    b    2
-
-##### GROUP BY and JOIN
-
-    CREATE TABLE users (id INT PRIMARY KEY, age INT);
-    CREATE TABLE posts (
-        id INT PRIMARY KEY,
-        userid INT,
-        FOREIGN KEY (userid) REFERENCES users(id)
-    );
-    INSERT INTO users VALUES (1, 20), (2, 20);
-    INSERT INTO posts VALUES (1, 1), (2, 1), (3, 2);
-    # How many posts each user has. Also show user age.
-    SELECT
-        users.id,
-        users.age,
-        COUNT(*)
-    FROM
-        users
-    INNER JOIN
-        posts
-    ON
-        users.id = posts.userid
-    GROUP BY
-        users.id
-    ;
-    DROP TABLE posts;
-    DROP TABLE users;
-
-Output:
-
-    id  age  COUNT(*)
-    1   20   2
-    2   20   1
-
-T-SQL forces you to put `users.age` and any non-aggregate column under `GROUP BY` as well like:
-
-    GROUP BY
-        users.id,
-        users.age,
-
-##### GROUP BY without aggregate
-
-Without an aggregate function, works like `DISTINCT`. But don't rely on that and prefer `DISTINCT` instead, since `GROUP BY` is designed to work with aggregates, and may have subtly different semantics: <http://stackoverflow.com/questions/164319/is-there-any-difference-between-group-by-and-distinct>
-
-In particular, T-SQL raises an error if you try to do that.
-
-    CREATE TABLE t (c0 CHAR(1), c1 INT);
-    INSERT INTO t VALUES ('a', 1), ('a', 2), ('b', 3), ('b', 3);
-    SELECT * FROM t GROUP BY c0 ORDER BY c0,c1;
-    SELECT * FROM t GROUP BY c1 ORDER BY c0,c1;
-    #TODO what happens on this one? same as above?
-    SELECT * FROM t GROUP BY c0,c1 ORDER BY c0,c1;
-    DROP TABLE t;
-
-Output:
-
-    c0   c1
-    a    1
-    b    3
-
-    c0   c1
-    a    1
-    a    2
-    b    3
-
-    c0   c1
-    a    1
-    a    2
-    b    3
+<http://stackoverflow.com/questions/6085443/can-i-resuse-a-calculated-field-in-a-select-query>
 
 #### HAVING
 
@@ -2581,7 +2500,7 @@ Duplicates are omitted:
         ORDER BY c0, `c0+1`;
     DROP TABLE t0, t1;
 
-Output;
+Output:
 
     c0   c0+1
     0    1
@@ -2964,6 +2883,8 @@ List `mysqld` variables and values after reading the configuration files:
 
     mysqld --verbose --help
 
+### Variables
+
 ### User variables
 
 ### User defined variable
@@ -3041,6 +2962,14 @@ Output:
 because `1` was the last value.
 
 It is likely that you will only want to do this kind of operation if you are sure that there is only a single `SELECT` output row, either because of a `WHERE unique_col = val` or `LIMIT 1`.
+
+Assign multiple variables at once:
+
+    CREATE TABLE t (c INT);
+    INSERT INTO t VALUES (0), (1), (2);
+    SELECT @max := MAX(c), @min := MIN(c) FROM t;
+    SELECT @max;
+    DROP TABLE t;
 
 ## Functions and operators
 
@@ -3130,6 +3059,14 @@ Output:
 
     0
     1
+
+### REPLACE
+
+Replace literals in strings.
+
+Not possible with regex: <http://stackoverflow.com/questions/986826/how-to-do-a-regular-expression-replace-in-mysql>
+
+Sometimes possible with `INSTR` + `SUBSTRING` + `SUBSTRING_INDEX`: <http://stackoverflow.com/questions/11114638/mysql-need-to-cut-a-part-of-a-string>
 
 ### REVERSE
 
@@ -3310,6 +3247,15 @@ Output:
     COUNT(*)
     3
 
+##### Find the most frequent value
+
+- <http://stackoverflow.com/questions/12235595/find-most-frequent-value-in-sql-column>
+- <http://stackoverflow.com/questions/344665/get-most-common-value-in-sql>
+
+##### Cound how many distinct values are there for a row
+
+<http://stackoverflow.com/questions/16697215/mysql-count-number-of-unique-values>
+
 #### EXISTS
 
 Takes a subquery and returns `TRUE` iff that subquery has at least one row, even if all its values are `NULL`.
@@ -3324,6 +3270,12 @@ Output:
 
     0
     1
+
+#### CASE WHEN aggregate
+
+Aggregates can have an internal `CASE WHEN` condition.
+
+Application: use multiple aggregates in a single query: <http://stackoverflow.com/questions/5462961/how-to-combine-two-count-queries-to-their-ratio>
 
 ### VIEW
 
