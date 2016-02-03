@@ -1,6 +1,6 @@
 ---
 title: Theory
-permalink: theory/
+permalink: db/theory/
 ---
 
 <https://en.wikipedia.org/wiki/CAP_theorem>

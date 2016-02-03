@@ -1,6 +1,6 @@
 ---
 title: OFFSET
-permalink: offset/
+permalink: db/mysql/offset/
 ---
 
 Which 1-based Nth row will be the first to show on the output.

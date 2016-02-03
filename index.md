@@ -2,22 +2,13 @@
 title: Database Tutorials
 ---
 
-Most useful tutorials:
-
--   [MySQL](mysql). The first section you should look at: every other technology is explained in comparison to it.
-
-    The SQL standard is considered, and MySQL extensions will be marked as such.
-
--   [PostgreSQL](postgresql)
-
-Less useful tutorials:
-
-- [Redis](redis)
-- [SQLite](sqlite)
-- [Theory](theory)
-
-## Sources
-
--   <http://db-engines.com/en/>
-
-    Good comparison of popular database engines, including useful architecture classifications.
+1. [MySQL](mysql)
+1. [PostgreSQL](postgresql)
+1. [Redis](redis)
+1. [SQLite](sqlite)
+1. [MongoDB](mongodb)
+1. [DB2](db2)
+1. [Microsoft](microsoft)
+1. [Oracle](oracle)
+1. [Theory](theory)
+1. [Bibliography](theory)

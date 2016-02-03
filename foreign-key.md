@@ -1,6 +1,6 @@
 ---
 title: FOREIGN KEY
-permalink: foreign-key/
+permalink: db/foreign-key/
 ---
 
 Constraint that states that a row points to `PRIMARY KEY` of another table.

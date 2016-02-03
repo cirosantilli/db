@@ -1,6 +1,6 @@
 ---
 title: MongoDB
-permalink: mongodb/
+permalink: db/mongodb/
 ---
 
 NoSQL database: looks like manipulating dictionaries / objects in Python / Ruby.

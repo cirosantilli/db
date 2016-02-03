@@ -1,6 +1,6 @@
 ---
 title: PRIMARY KEY
-permalink: primary-key/
+permalink: db/mysql/primary-key/
 ---
 
 Implies the behaviors of `UNIQUE` and `NOT NULL`, that is:

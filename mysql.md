@@ -1,6 +1,6 @@
 ---
 title: MySQL Cheat
-permalink: mysql/
+permalink: db/mysql/
 ---
 
 {{ site.toc }}
@@ -9,9 +9,10 @@ permalink: mysql/
 1.  [OFFSET](offset/)
 1.  [GROUP BY](group-by/)
 1.  Indexes
-    1. [INDEX](index)
+    1. [INDEX](index-table)
     1. [UNIQUE](unique)
     1. [PRIMARY KEY](primary-key)
+    1. [FOREIGN KEY](foreign-key)
 1.  [JOIN](join/)
 
 Open source.

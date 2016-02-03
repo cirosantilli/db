@@ -1,6 +1,6 @@
 ---
 title: GROUP BY
-permalink: group-by/
+permalink: db/mysql/group-by/
 ---
 
 With aggregate functions, the aggregate is calculated once on each row of unique values:

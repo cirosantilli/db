@@ -1,6 +1,6 @@
 ---
 title: Redis Cheat
-permalink: redis/
+permalink: db/redis/
 ---
 
 A key value server, also known as NoSQL database.
@@ -20,15 +20,11 @@ Once the server is running, command line REPL interface:
 
 TODO check everything bellow, in particular if MySQL can do each of those things.
 
-Can store complex data structures like lists, sets and maps,
-MySQL only represents those structures indirectly with tables and columns.
+Can store complex data structures like lists, sets and maps, MySQL only represents those structures indirectly with tables and columns.
 
-Loads all of it's data on RAM, persists it by default to disk.
-Therefore faster than MySQL which always reads from disk TODO check
-but it can store much less data. TODO possible to not load everything on RAM?
+Loads all of it's data on RAM, persists it by default to disk. Therefore faster than MySQL which always reads from disk TODO check but it can store much less data. TODO possible to not load everything on RAM?
 
-Only saves modifications to disk from time to time,
-thus lower durability, and greater performance.
+Only saves modifications to disk from time to time, thus lower durability, and greater performance.
 
 Pipelining support: multiple operations on a single HTTP request.
 

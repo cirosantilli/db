@@ -1,6 +1,6 @@
 ---
 title: SQLite Cheat
-permalink: sqlite/
+permalink: db/sqlite/
 ---
 
 File based.

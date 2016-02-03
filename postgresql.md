@@ -1,6 +1,6 @@
 ---
 title: PostgreSQL Cheat
-permalink: postgresql/
+permalink: db/postgresql/
 ---
 
 Open source.
