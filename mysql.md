@@ -60,7 +60,7 @@ Contains info such as: port to listen to.
 
 ## Interfaces
 
-### MySQL utility
+### mysql utility
 
 CLI interface to MySQL.
 
@@ -90,7 +90,7 @@ TODO when does login without password not fail?
 
 Log in with given password:
 
-    mysql -u root -h localhost -p"pass"
+    mysql -u root -h localhost -p'pass'
 
 There must be no space between `-p` and `"pass"`. This has obviously the security risk of exposing your password.
 
@@ -106,7 +106,7 @@ The `mysql` CLI utility can be used either as:
 
     Execute commands from string and exit:
 
-        mysql -u root -p -e "SHOW DATABASES;"
+        mysql -u root -p -e 'SHOW DATABASES;'
 
     Execute commands from a file and exit:
 
@@ -124,11 +124,11 @@ The following options are relevant:
 
 `-s`: silent. Does not print table borders. Separates entries with tabs and rows with newlines.
 
-    mysql -se "SHOW DATABSES;"
+    mysql -se 'SHOW DATABSES;'
 
 `-N`: omit table headers containing column names.
 
-    mysql -Ne "SHOW DATABSES;"
+    mysql -Ne 'SHOW DATABSES;'
 
 `-r`: raw. Controls if the special characters `\0`, `\t` `\n` should be represented as backslash escapes or not.
 
@@ -1141,7 +1141,9 @@ wait, and then:
     SELECT * FROM t;
     DROP TABLE t;
 
-#### CHAR and VARCHAR
+#### CHAR
+
+#### VARCHAR
 
 `CHAR` and `VARCHAR` both store strings of characters in the given column encoding and collation.
 
@@ -1732,8 +1734,8 @@ Show entire table `table`:
 
 It is possible to rename tables on the select:
 
-    CREATE TABLE t  (i INT);
-    INSERT INTO t VALUES  (1), (2);
+    CREATE TABLE t (i INT);
+    INSERT INTO t VALUES (1), (2);
     SELECT new_name.i FROM t new_name ORDER BY new_name.i;
     DROP TABLE t;
 
@@ -1938,6 +1940,43 @@ Output:
 
     SUM(t2.c0)
     1
+
+#### Prepared statements
+
+- <http://stackoverflow.com/questions/675010/what-is-the-question-marks-significance-in-mysql>
+- <http://dev.mysql.com/doc/refman/5.0/en/sql-syntax-prepared-statements.html>
+
+Syntax error because of missing quote:
+
+    SELECT * FROM t WHERE s = ?;
+
+With quote, it has no special meaning:
+
+    CREATE TABLE t (s CHAR(1));
+    INSERT INTO t VALUES ('a');
+    INSERT INTO t VALUES ("?");
+    SELECT * FROM t WHERE s = '?';
+    DROP TABLE t;
+
+Output:
+
+    s
+    ?
+
+Strings are escaped:
+
+    CREATE TABLE t (s CHAR(1));
+    INSERT INTO t VALUES ('a');
+    INSERT INTO t VALUES ("'");
+    PREPARE stmt1 FROM 'SELECT * FROM t WHERE s = ?';
+    SET @a = "'";
+    EXECUTE stmt1 USING @a;
+    DROP TABLE t;
+
+Output:
+
+    s
+    '
 
 #### Subqueries
 

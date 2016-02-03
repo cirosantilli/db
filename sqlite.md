@@ -7,6 +7,12 @@ File based.
 
 Not intended for production servers, but can useful for testing and use in user applications.
 
+This type of database is called an <https://en.wikipedia.org/wiki/Embedded_database>
+
+One of the most deployed softwares in the world.
+
+If you ever think something like: "hey, I'd like to store this hash map persistently to disk", then you should try this.
+
 ## Versions
 
 As of 2015, there are two major versions: 2 and 3.

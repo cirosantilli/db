@@ -19,3 +19,5 @@ Output:
     1
 
 Mandatory to use `LIMIT` with it: <http://stackoverflow.com/questions/255517/mysql-offset-infinite-rows>
+
+`LIMIT` must come before `OFFSET`.
