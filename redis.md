@@ -1,6 +1,5 @@
 ---
 title: Redis Cheat
-permalink: db/redis/
 ---
 
 A key value server, also known as NoSQL database.

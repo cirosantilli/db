@@ -1,6 +1,5 @@
 ---
 title: INDEX
-permalink: db/mysql/index-table/
 ---
 
 Same as `KEY`.

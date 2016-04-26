@@ -1,6 +1,5 @@
 ---
 title: Bibliography
-permalink: db/bibliography/
 ---
 
 -   <http://db-engines.com/en/>

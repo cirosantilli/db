@@ -1,6 +1,5 @@
 ---
 title: Oracle
-permalink: oracle/
 ---
 
 <http://en.wikipedia.org/wiki/Oracle_Database>

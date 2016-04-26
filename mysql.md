@@ -1,6 +1,5 @@
 ---
 title: MySQL Cheat
-permalink: db/mysql/
 ---
 
 {{ site.toc }}

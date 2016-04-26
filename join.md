@@ -1,6 +1,5 @@
 ---
 title: JOIN
-permalink: db/mysql/join/
 ---
 
 Make a query result that uses rows from multiple tables.

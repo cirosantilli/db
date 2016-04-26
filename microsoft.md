@@ -1,6 +1,5 @@
 ---
 title: Microsoft
-permalink: db/microsoft/
 ---
 
 <http://en.wikipedia.org/wiki/Microsoft_SQL_Server>, often shortened to just SQL server.

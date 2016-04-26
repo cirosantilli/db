@@ -1,6 +1,5 @@
 ---
 title: UNIQUE
-permalink: db/mysql/unique/
 ---
 
 Enforces uniqueness of each value of a row, except for `NULL` which may appear several times.

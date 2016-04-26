@@ -1,6 +1,5 @@
 ---
 title: LIMIT
-permalink: db/mysql/limit/
 ---
 
 Limit the number of outputs.
