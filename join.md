@@ -6,6 +6,13 @@ Make a query result that uses rows from multiple tables.
 
 {{ site.toc }}
 
+## Vs multiple SELECT
+
+Every join can be done with multiple `SELECT`. Which is faster?
+
+- <http://stackoverflow.com/questions/1067016/join-queries-vs-multiple-queries>
+- <http://dba.stackexchange.com/questions/42998/are-individual-queries-faster-than-joins>
+
 ## INNER JOIN
 
 Only rows present on both are considered (intersection).

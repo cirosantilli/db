@@ -4,41 +4,31 @@ title: MySQL Cheat
 
 {{ site.toc }}
 
-1.  [LIMIT](limit/)
-1.  [OFFSET](offset/)
-1.  [GROUP BY](group-by/)
+1.  [Getting started](getting-started)
+1.  Introduction
+    1. [SQL](sql)
+1.  Basic commands
+    1.  SELECT
+        1.  [ORDER BY](order-by)
+    1.  [LIMIT](limit)
+    1.  [OFFSET](offset)
+    1.  [GROUP BY](group-by)
+1.  Aggregate functions
+    1. [COUNT](count)
+    1. [CASE WHEN](case-when)
 1.  Indexes
     1. [INDEX](index-table)
     1. [UNIQUE](unique)
     1. [PRIMARY KEY](primary-key)
     1. [FOREIGN KEY](foreign-key)
-1.  [JOIN](join/)
+1.  [JOIN](join)
+1.  Utilities
+    1. [mysqldump](mysqldump)
+    1. [mysqladmin](mysqladmin)
 
 Open source.
 
 As of 2013, MySQL was the most popular server-based DBMS.
-
-## SQL
-
-## Standards
-
-<http://en.wikipedia.org/wiki/SQL>
-
-The SQL standard is a non-free ANSI/ISO standard, and it is really hard to find good drafts.
-
-### Implementations
-
-Large comparison table between implementations: <http://troels.arvin.dk/db/rdbms/>
-
-MySQL is generally compatible with the SQL standard for DBMS, but it is well known that there are many differences between how different DBMS implement SQL, so it is not safe to assume that using SQL only will lead to very high portability.
-
-Other important implementations of SQL-like languages are:
-
-- PostgreSQL
-- SQLite
-- Oracle
-- Microsoft
-- DB2
 
 ## Server
 
@@ -134,51 +124,6 @@ The following options are relevant:
 
     If yes, then the backslash character gets printed as `\\` to differentiate it.
 
-### mysqladmin
-
-CLI utility that simplifies MySQL administration tasks.
-
-`-u`, `-p` and `-h` have analogous usage to that of the `mysql` command.
-
-Login as user `root` and change its password:
-
-    mysqladmin -u root -h localhost -p password
-
-`password` here is a `mysqladmin` subcommand. It seems that it is not possible to change the password of another user with this method. Use `SET PASSWORD` or `UPDATE PASSWORD` for that instead.
-
-### mysldump
-
-CLI utility that allows to easily save a database to a file.
-
-Dump to file, no `USE` instructions, drops existing tables:
-
-    mysqldump -u root "$DB_NAME" > bak.sql
-    mysqldump -u root "$DB_NAME" "$TABLE1" "$TABLE2" > bak.sql
-
-Multiple DBMS, creates DBMS with old names, uses them:
-
-    mysqldump -u root --databases "$DB1" "$DB2" > bak.sql
-
-    mysqldump -u root --all-databases > bak.sql
-
-All DBMS, includes `USE` statements.
-
-    -d : no data
-    --no-create-info : data only
-
-### Restore database from file
-
-Make sure the DB exists and that you really want to overwrite it!
-
-    PASS=
-    mysql -u root -p"$PASS" < bak.sql
-
-    DB=
-    DB2=
-    PASS=
-    mysql -u root -p"$PASS" -e "create database $DB2;"
-    mysqldump -u root -p"$PASS" $DB | mysql -u root -p"$PASS" $DB2
-
 ### phpmyadmin
 
 Popular PHP based browser interface for MySQL.
@@ -196,22 +141,6 @@ The following have interfaces which are part of the MySQL project:
 - PHP
 - Perl
 - Ruby
-
-## Test preparation
-
-Before doing any tests, create a test user and a test database.
-
-    mysql -u root -h localhost -p -e "
-        CREATE USER 'a'@'localhost' IDENTIFIED BY 'a';
-        CREATE DATABASE a;
-        GRANT ALL ON a.* TO 'a'@'localhost';
-    "
-
-You can now put into your `.bashrc`:
-
-    alias myt="mysql -u a -h localhost -pa a"
-
-and now you can type `myt` to safely run any tests.
 
 ## Help
 
@@ -1679,6 +1608,10 @@ Output:
     2    5
     3    9
 
+### SELECT FOR UPDATE
+
+TODO looks like a synchronization mechanism.
+
 ### DELETE
 
 Delete selected rows.
@@ -1841,50 +1774,6 @@ It is not possible to refer to a column that have be created in the query via `A
     DROP TABLE t;
 
 It would of course be possible to get all the results and then filter them using a programming language, but the list of all results might be too long.
-
-#### ORDER BY
-
-Order select output by one or more columns.
-
-    CREATE TABLE t (c0 INT, c1 INT);
-    INSERT INTO t VALUES (0, 1), (0, 0), (1, 1), (2, 0);
-    # Partially unspecified:
-    SELECT * FROM t ORDER BY c0;
-    SELECT * FROM t ORDER BY c0*c1;
-    # Fully specified:
-    SELECT * FROM t ORDER BY c0,c1;
-    SELECT c0 + c1 AS sum FROM t ORDER BY sum;
-    DROP TABLE t;
-
-Possible output (up to reordering unspecified orders):
-
-    c0   c1
-    0    1
-    0    0
-    1    1
-    2    0
-
-    c0   c1
-    0    1
-    0    0
-    2    0
-    1    1
-
-    c0   c1
-    0    0
-    0    1
-    1    1
-    2    0
-
-    sum
-    0
-    1
-    2
-    2
-
-If not used, the orders are unspecified. Almost all `SELECT` statements done in practice will have specified order.
-
-This query can be optimized by B-Tree indexes on MySQL and PostgreSQL.
 
 #### DISTINCT
 
@@ -2649,64 +2538,9 @@ Output:
 
 `IF` function in T-SQL.
 
-### Aggregate function
+### Aggregate functions
 
 Aggregate functions are function that operate on entire (subquery) columns instead of individual values.
-
-#### SUM
-
-Sum of a column.
-
-It is possible to use any function of the input row such as `c0 * c1`.
-
-It is possible to make two aggregate function queries on the same `SELECT` as in `(1)`, but making a non-aggregate function query with an aggregate function query only shows the first non aggregate output as in `(2)`, which is probably not what you want.
-
-`WHERE` is applied before aggregate functions, and selects which rows will be used for the calculation of the aggregate:
-
-    CREATE TABLE t (c0 INT, c1 INT);
-    INSERT INTO t VALUES (1, 1), (2, 4), (3, 9);
-    SELECT SUM(c0) FROM t;
-    SELECT SUM(c1) FROM t;
-    SELECT SUM(c0 * c1) FROM t;
-    SELECT SUM(c0 + c1) AS name FROM t;
-    SELECT MAX(c0), SUM(c0) FROM t;     #(1)
-    SELECT MAX(c0) + SUM(c0) FROM t;
-    SELECT c0, SUM(c0) FROM t;          #(2)
-    SELECT SUM(c0) FROM t WHERE c0 > 1;
-    DROP TABLE t;
-
-Output:
-
-    SUM(c0)
-    6
-
-    SUM(c1)
-    14
-
-    SUM(c0 * c1)
-    36
-
-    name
-    20
-
-    MAX(c0) SUM(c0)
-    3       6
-
-    MAX(c0) + SUM(c0)
-    9
-
-    c0  SUM(c0)
-    1   6
-
-    c0  SUM(c0)
-    1   5
-
-Null is treated as TODO: is giving 1 in 5.5. But I have seen many places say it could break up, like return NULL.
-
-    CREATE TABLE t (c INT);
-    INSERT INTO t VALUES (1), (NULL);
-    SELECT SUM(c) FROM t;
-    DROP TABLE t;
 
 #### MAX
 
@@ -2738,30 +2572,6 @@ Output:
     2.0000
     4.6667
 
-#### COUNT
-
-Return the number of non `NULL` entries of a column.
-
-`COUNT(*)` counts the total number of entries of a table, including entries that only contain `NULL` values.
-
-    CREATE TABLE t (c0 INT, c1 INT);
-    INSERT INTO t VALUES (0, 0), (1, NULL), (NULL, NULL);
-    SELECT COUNT(c0) FROM t;
-    SELECT COUNT(c1) FROM t;
-    SELECT COUNT(*) FROM t;
-    DROP TABLE t;
-
-Output:
-
-    COUNT(c0)
-    2
-
-    COUNT(c1)
-    1
-
-    COUNT(*)
-    3
-
 ##### Find the most frequent value
 
 - <http://stackoverflow.com/questions/12235595/find-most-frequent-value-in-sql-column>
@@ -2785,12 +2595,6 @@ Output:
 
     0
     1
-
-#### CASE WHEN aggregate
-
-Aggregates can have an internal `CASE WHEN` condition.
-
-Application: use multiple aggregates in a single query: <http://stackoverflow.com/questions/5462961/how-to-combine-two-count-queries-to-their-ratio>
 
 ### VIEW
 
@@ -2922,6 +2726,10 @@ Four properties that describe how databases deal with messy situations like powe
 The following are ACID related MySQL features.
 
 <http://stackoverflow.com/questions/21584207/are-mysql-queries-atomic>
+
+### Atomicity
+
+`UPDATE`: <http://stackoverflow.com/questions/3821468/sql-atomic-increment-and-locking-strategies-is-this-safe>
 
 ### Transaction
 
@@ -3187,6 +2995,7 @@ Coded half in C++, half in C.
 
 ## Rank output
 
+- <http://stackoverflow.com/questions/1895110/row-number-in-mysql>
 - <http://stackoverflow.com/questions/2520357/mysql-get-row-number-on-select>
 - <http://dba.stackexchange.com/questions/13703/get-the-rank-of-a-user-in-a-score-table>
 - <http://stackoverflow.com/questions/431053/what-is-the-best-way-to-generate-ranks-in-mysql>

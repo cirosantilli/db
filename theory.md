@@ -31,3 +31,9 @@ Summary:
 -   vertical: make one server more powerful.
 
     Relational databases do it better than NoSQL. TODO why?
+
+## DDL
+
+## DML
+
+<http://stackoverflow.com/questions/2578194/what-is-ddl-and-dml>

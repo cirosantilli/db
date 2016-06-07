@@ -102,3 +102,43 @@ Output:
     a    1
     a    2
     b    3
+
+## Applications
+
+### Net upvotes minus downvotes
+
+    CREATE TABLE votes (
+        article_id INT,
+        type INT
+    );
+
+    INSERT INTO votes VALUES
+        (1, 0), (1, 1), (2, 0), (3, 1);
+
+    # Most votes ignoring type.
+    SELECT article_id, COUNT(article_id) AS count
+    FROM votes
+    GROUP BY article_id
+    ORDER BY count DESC;
+
+    # Most upvotes.
+    SELECT article_id, COUNT(article_id) AS count
+    FROM votes
+    WHERE type = 0
+    GROUP BY article_id
+    ORDER BY count DESC;
+
+    # Upvotes minus downvotes.
+    SELECT
+        article_id,
+        SUM(
+            CASE type
+            WHEN 0 THEN 1
+            WHEN 1 THEN -1
+            END
+        ) AS count
+    FROM votes
+    GROUP BY article_id
+    ORDER BY count DESC;
+
+    DROP TABLE votes;

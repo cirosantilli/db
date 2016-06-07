@@ -8,7 +8,7 @@ Not intended for production servers, but can useful for testing and use in user 
 
 This type of database is called an <https://en.wikipedia.org/wiki/Embedded_database>
 
-One of the most deployed softwares in the world.
+One of the most deployed software in the world.
 
 If you ever think something like: "hey, I'd like to store this hash map persistently to disk", then you should try this.
 
@@ -33,6 +33,14 @@ It is likely a good idea to use `sqlite3` always for new applications.
 Now as soon as you create a table the db file is created:
 
     CREATE TABLE t (i INTEGER);
+
+## Invocation
+
+## CLI interface
+
+Run command on a given database:
+
+    sqlite3 db.sqlite3 'select * from table;'
 
 ### attach
 
