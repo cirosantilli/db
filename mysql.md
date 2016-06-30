@@ -14,8 +14,13 @@ title: MySQL Cheat
     1.  [OFFSET](offset)
     1.  [GROUP BY](group-by)
 1.  Aggregate functions
-    1. [COUNT](count)
-    1. [CASE WHEN](case-when)
+    1.  General concepts
+        1.  [CASE WHEN](case-when)
+        1.  [HAVING](having)
+    1.  Specific aggregate functions
+        1. [COUNT](count)
+        1. [EXISTS](exists)
+        1. [SUM](sum)
 1.  Indexes
     1. [INDEX](index-table)
     1. [UNIQUE](unique)
@@ -2024,35 +2029,6 @@ Goal:
 
 <http://stackoverflow.com/questions/6085443/can-i-resuse-a-calculated-field-in-a-select-query>
 
-#### HAVING
-
-What `HAVING` does is similar to `WHERE`, but:
-
--   `HAVING` can refer to columns generated via `AS` or aggregate functions.
-
-        CREATE TABLE t (c0 INT, c1 INT);
-        INSERT INTO t VALUES (1, 1), (2, 4), (3, 9);
-        SELECT c0+c1 AS sum FROM t HAVING sum > 3 ORDER BY sum;
-        DROP TABLE t;
-
-    Output:
-
-        sum
-        6
-        12
-
--   `HAVING` is applied after `GROUP BY` while `WHERE` is applied before.
-
-        CREATE TABLE t (c0 CHAR(1), c1 INT);
-        INSERT INTO t VALUES ('a', 1), ('a', 2), ('b', 3), ('b', 3);
-        SELECT c0, SUM(c1) AS sum FROM t GROUP BY c0 HAVING sum > 4;
-        DROP TABLE t;
-
-    Output:
-
-        c0   sum
-        b    6
-
 ### UNION
 
 Unite the resulting rows of two queries.
@@ -2577,24 +2553,9 @@ Output:
 - <http://stackoverflow.com/questions/12235595/find-most-frequent-value-in-sql-column>
 - <http://stackoverflow.com/questions/344665/get-most-common-value-in-sql>
 
-##### Cound how many distinct values are there for a row
+##### Count how many distinct values are there for a row
 
 <http://stackoverflow.com/questions/16697215/mysql-count-number-of-unique-values>
-
-#### EXISTS
-
-Takes a subquery and returns `TRUE` iff that subquery has at least one row, even if all its values are `NULL`.
-
-    CREATE TABLE t(c0 INT);
-    SELECT EXISTS( SELECT * FROM t );
-    INSERT INTO t VALUES (NULL);
-    SELECT EXISTS( SELECT * FROM t );
-    DROP TABLE t;
-
-Output:
-
-    0
-    1
 
 ### VIEW
 

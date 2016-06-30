@@ -190,7 +190,7 @@ Since `one` has no corresponding square, the square is `NULL`.
 
 ### LEFT JOIN on SELECT
 
-This syntax is being generally deprecated: use `LET JOIN` instead: <http://stackoverflow.com/questions/894490/sql-left-join-vs-multiple-tables-on-from-line>
+This syntax is being generally deprecated: use `LEFT JOIN` instead: <http://stackoverflow.com/questions/894490/sql-left-join-vs-multiple-tables-on-from-line>
 
 Multiple tables:
 
@@ -226,6 +226,8 @@ Table names are omitted from the headers. To disambiguate use `AS`.
 
 ## RIGHT JOIN
 
+Not as widely implemented as `LEFT` (sqlite), and can always be emulated with `LEFT`, so never use it.
+
     CREATE TABLE names (i INT, name VARCHAR(16));
     CREATE TABLE squares (i INT, square INT);
     INSERT INTO names VALUES (0, 'zero'), (1, 'one'), (3, 'three');
@@ -249,4 +251,3 @@ Output:
 `{LEFT|RIGHT} OUTER JOIN` is the same as `LEFT JOIN`.
 
 `FULL OUTER JOIN` (select at least one item from both sides) is not present as of MySQL 5.5, but can be emulated with `UNION`: <http://stackoverflow.com/questions/7978663/mysql-full-join/7978665#7978665>.
-

@@ -31,3 +31,12 @@ Example: calculate the total net upvotes minus downvotes:
     DROP TABLE votes;
 
 This example could be simplified by using type as `INT` and upvote as `1` and downvote as `-1`, then we can just do a `SUM(type)`.
+
+## MySQL extension
+
+It is possible to write things like:
+
+    COUNT(column = 0)
+    SUM(column > 0)
+
+in MySQL. The more portable SQL equivalent is to use `CASE WHEN` with `null` for `COUNT` and `0` for `SUM`.

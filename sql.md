@@ -21,3 +21,7 @@ Other important implementations of SQL-like languages are:
 - Oracle
 - Microsoft
 - DB2
+
+## Comparisons
+
+- <http://www.sqlite.org/sqllogictest/doc/trunk/about.wiki> can be used to test and compare multiple SQL databases
