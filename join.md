@@ -154,7 +154,7 @@ Output:
 
 ## LEFT JOIN
 
-Consider all rows of the left (first) table, even if they have no match on the second table,
+Consider all rows of the left (first) table, even if they have no match on the second table.
 
 If the second table has no match, its columns receive `NULL`.
 
@@ -183,8 +183,10 @@ Output:
     one         NULL
     three       9
 
-`one` is present because it is on the left table.
-`two` is not because it is on the right table.
+Here:
+
+- `one` is present because it is on the left table
+- `two` is not because it is on the right table
 
 Since `one` has no corresponding square, the square is `NULL`.
 
