@@ -11,4 +11,5 @@ group :jekyll_plugins do
   gem 'jekyll-git_metadata', '0.2.0'
   gem 'jekyll-sitemap', '1.3.1'
   gem 'jekyll-asciidoc', '2.1.1'
+  gem 'jekyll-coffeescript', '1.2.2'
 end

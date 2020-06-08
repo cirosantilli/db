@@ -2,7 +2,7 @@
 title: Database Tutorials
 ---
 
-TODO convert to cirodown and move it to cirosantilli.github.io
+TODO convert to Cirodown and move into cirosantilli.github.io. No patience because this material is not good enough.
 
 1. [MySQL](mysql)
 1. [PostgreSQL](postgresql)
